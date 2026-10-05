@@ -2,383 +2,519 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 <title>五十音あつめ</title>
 <style>
+/* =========================================
+   基本
+========================================= */
 * {
   box-sizing: border-box;
 }
 body {
   margin: 0;
+  background: #f7f6f2;
+  color: #292824;
   font-family:
-    "Hiragino Maru Gothic ProN",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Helvetica Neue",
     "Hiragino Kaku Gothic ProN",
     "Yu Gothic",
-    "Meiryo",
     sans-serif;
-  background: #e9eff2;
-  color: #3f5059;
-  letter-spacing: 0.03em;
 }
-/* ===== ヘッダー ===== */
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+/* =========================================
+   ヘッダー
+========================================= */
 header {
-  background: #718b99;
-  color: white;
   text-align: center;
-  padding: 24px 16px 22px;
-  box-shadow: 0 3px 10px rgba(70, 90, 100, 0.15);
+  padding: 42px 20px 28px;
 }
-header h1 {
+h1 {
   margin: 0;
-  font-size: 27px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+  font-size: 34px;
+  font-weight: 500;
+  letter-spacing: .08em;
 }
-header p {
-  margin: 8px 0 0;
-  font-size: 13px;
-  opacity: 0.9;
+.subtitle {
+  margin-top: 9px;
+  color: #99958c;
+  font-size: 12px;
+  letter-spacing: .16em;
 }
-/* ===== 全体 ===== */
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px 14px 40px;
+.count {
+  margin-top: 22px;
+  color: #77736b;
+  font-size: 14px;
 }
-/* ===== 進捗 ===== */
-.progress-box {
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid #d0dce1;
-  border-radius: 18px;
-  padding: 14px 18px;
-  margin-bottom: 18px;
-  text-align: center;
-  box-shadow: 0 3px 12px rgba(70, 90, 100, 0.08);
+/* =========================================
+   プログレスバー
+========================================= */
+.progress-bar {
+  width: min(420px, 90%);
+  height: 4px;
+  margin: 11px auto 0;
+  background: #e2dfd7;
+  border-radius: 10px;
+  overflow: hidden;
 }
-.progress-text {
-  font-size: 15px;
-  font-weight: 600;
-  color: #536b76;
+.progress {
+  width: 0%;
+  height: 100%;
+  background: #5c5d56;
+  transition:
+    width .3s ease;
 }
-.progress-number {
-  color: #6d8998;
-  font-size: 22px;
-  font-weight: 700;
+/* =========================================
+   メイン
+========================================= */
+main {
+  width: min(900px, 100%);
+  margin: auto;
+  padding:
+    0
+    16px
+    60px;
 }
-/* ===== 五十音グリッド ===== */
-.kana-grid {
+/* =========================================
+   上部ボタン
+========================================= */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.top-button {
+  border:
+    1px solid
+    #d6d2c9;
+  background:
+    #fffefa;
+  color:
+    #3b3934;
+  border-radius:
+    999px;
+  padding:
+    10px 18px;
+  font-size:
+    13px;
+}
+.top-button:active {
+  transform:
+    scale(.97);
+}
+/* =========================================
+   五十音表
+========================================= */
+.kana-table {
   display: grid;
+  grid-template-columns:
+    repeat(5, 1fr);
   gap: 10px;
 }
-.kana-row {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
-}
-.kana-row.three {
-  grid-template-columns: repeat(5, 1fr);
-}
-/* ===== カード ===== */
-.kana-card {
+.card {
   position: relative;
   aspect-ratio: 1 / 1;
-  background: #ffffff;
-  border: 1px solid #cbd9df;
-  border-radius: 16px;
+  background:
+    #fffefa;
+  border:
+    1px solid
+    #dedbd2;
   overflow: hidden;
   cursor: pointer;
-  box-shadow: 0 3px 9px rgba(70, 90, 100, 0.09);
   transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
+    .2s ease;
 }
-.kana-card:active {
-  transform: scale(0.97);
+.card:hover {
+  transform:
+    translateY(-2px);
+  box-shadow:
+    0 5px 18px
+    rgba(0,0,0,.06);
 }
-.kana-card:hover {
-  box-shadow: 0 5px 14px rgba(70, 90, 100, 0.14);
+.card.empty-position {
+  background:
+    transparent;
+  border-color:
+    transparent;
+  cursor:
+    default;
+  box-shadow:
+    none;
 }
-/* 空カード */
-.kana-empty {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  color: #8ca0aa;
-}
-.kana-empty .kana {
-  font-size: 31px;
-  font-weight: 600;
-}
-.plus {
-  font-size: 25px;
-  line-height: 1;
-  margin-top: 4px;
-  color: #9eb0b9;
-}
-/* 写真 */
-.kana-card img {
+.card-photo {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
-/* 文字ラベル */
+/* =========================================
+   五十音ラベル
+========================================= */
 .kana-label {
   position: absolute;
-  left: 7px;
-  bottom: 7px;
-  min-width: 30px;
-  height: 30px;
-  padding: 0 7px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.9);
-  color: #526a75;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: 700;
-  box-shadow: 0 2px 5px rgba(50, 70, 80, 0.15);
+  z-index: 3;
+  top: 8px;
+  left: 8px;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  background:
+    rgba(255,254,250,.92);
+  border-radius: 50%;
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+  font-size: 18px;
 }
-/* 削除ボタン */
-.delete-btn {
+/* =========================================
+   空のマス
+========================================= */
+.empty-plus {
   position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 27px;
-  height: 27px;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #bcb8ae;
+  font-size: 25px;
+}
+/* =========================================
+   削除ボタン
+========================================= */
+.delete-button {
+  position: absolute;
+  z-index: 5;
+  top: 7px;
+  right: 7px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
   border: none;
   border-radius: 50%;
-  background: rgba(75, 91, 99, 0.75);
-  color: white;
-  font-size: 17px;
-  line-height: 27px;
-  padding: 0;
-  cursor: pointer;
-  z-index: 5;
+  background:
+    rgba(255,254,250,.94);
+  color: #77736b;
+  font-size: 20px;
+  line-height: 28px;
 }
-/* ===== ボタン ===== */
-.button-area {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* =========================================
+   注意書き
+========================================= */
+.notice {
+  text-align: center;
   margin-top: 22px;
+  color: #aaa69d;
+  font-size: 11px;
+  letter-spacing: .05em;
 }
-button {
-  font-family: inherit;
-}
-.main-button {
-  width: 100%;
-  border: none;
-  border-radius: 15px;
-  padding: 14px 16px;
-  background: #718b99;
-  color: white;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  box-shadow: 0 4px 9px rgba(70, 90, 100, 0.15);
-  cursor: pointer;
-}
-.main-button:active {
-  transform: scale(0.98);
-}
-.sub-button {
-  width: 100%;
-  border: 1px solid #b9cbd2;
-  border-radius: 15px;
-  padding: 12px 16px;
-  background: rgba(255, 255, 255, 0.75);
-  color: #607985;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-}
-/* ===== ファイル入力 ===== */
+/* =========================================
+   写真選択
+========================================= */
 #fileInput {
   display: none;
 }
-/* ===== モーダル ===== */
+/* =========================================
+   モーダル
+========================================= */
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(49, 65, 72, 0.65);
   display: none;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 18px;
+  background:
+    rgba(0,0,0,.62);
   z-index: 100;
 }
 .modal.show {
   display: flex;
 }
-.modal-content {
-  width: min(92vw, 500px);
-  max-height: 92vh;
-  overflow-y: auto;
-  background: #f8fafb;
-  border-radius: 22px;
-  padding: 18px;
-  box-shadow: 0 10px 35px rgba(40, 55, 65, 0.25);
+/* =========================================
+   モーダル本体
+========================================= */
+.modal-box {
+  width:
+    min(500px, 100%);
+  max-height:
+    95vh;
+  overflow-y:
+    auto;
+  background:
+    #fffefa;
+  border-radius:
+    20px;
+  padding:
+    20px;
 }
 .modal-title {
-  text-align: center;
-  color: #526b76;
-  font-size: 18px;
-  font-weight: 700;
-  margin: 2px 0 14px;
+  margin:
+    0 0 15px;
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+  font-size:
+    22px;
+  font-weight:
+    500;
 }
-/* ===== クロップ ===== */
+/* =========================================
+   トリミングエリア
+========================================= */
 .crop-area {
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
-  background: #dce5e9;
-  border-radius: 15px;
   overflow: hidden;
+  background:
+    #222;
   touch-action: none;
-  box-shadow:
-    inset 0 0 0 1px #c5d3d9,
-    0 3px 10px rgba(70, 90, 100, 0.08);
-}
-#cropImage {
-  position: absolute;
-  max-width: none;
   user-select: none;
-  -webkit-user-drag: none;
+  -webkit-user-select: none;
+}
+.crop-area img {
+  position: absolute;
+  display: block;
+  max-width: none;
+  max-height: none;
+  user-select: none;
+  -webkit-user-select: none;
   pointer-events: none;
-  display: none;
 }
-/* ===== ズーム ===== */
-.zoom-area {
-  margin: 16px 0 12px;
-}
+/* =========================================
+   ズーム
+========================================= */
 .zoom-label {
-  text-align: center;
-  font-size: 13px;
-  color: #71868f;
-  margin-bottom: 7px;
+  display: block;
+  margin-top: 15px;
+  color:
+    #77736b;
+  font-size:
+    12px;
 }
-#zoomSlider {
+.zoom-slider {
   width: 100%;
-  accent-color: #718b99;
+  margin:
+    8px 0 18px;
 }
-/* ===== モーダルボタン ===== */
+/* =========================================
+   モーダルボタン
+========================================= */
 .modal-buttons {
-  display: grid;
-  gap: 9px;
+  display: flex;
+  justify-content:
+    flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
 }
-.modal-buttons button {
-  border: none;
-  border-radius: 14px;
-  padding: 13px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-}
-.cancel-button {
-  background: #e2e9ec;
-  color: #667b84;
-}
-.save-photo-button {
-  background: #9aafb9;
-  color: white;
+.modal-button {
+  border:
+    1px solid
+    #d6d2c9;
+  background:
+    white;
+  border-radius:
+    999px;
+  padding:
+    10px 17px;
+  font-size:
+    13px;
 }
 .use-button {
-  background: #718b99;
-  color: white;
+  background:
+    #34352f;
+  color:
+    white;
+  border-color:
+    #34352f;
 }
-/* ===== PC表示 ===== */
-@media (min-width: 700px) {
-  .kana-grid {
-    gap: 12px;
+/* =========================================
+   写真アプリ保存ボタン
+========================================= */
+.save-photo-button {
+  background:
+    #eeeae1;
+  color:
+    #34352f;
+  border-color:
+    #d6d2c9;
+}
+/* =========================================
+   スマホ
+========================================= */
+@media (max-width: 600px) {
+  header {
+    padding-top: 32px;
   }
-  .kana-row {
-    gap: 12px;
+  h1 {
+    font-size: 30px;
   }
-  .container {
-    padding-left: 20px;
-    padding-right: 20px;
+  .kana-table {
+    gap: 6px;
+  }
+  .kana-label {
+    width: 28px;
+    height: 28px;
+    top: 5px;
+    left: 5px;
+    font-size: 16px;
+  }
+  .delete-button {
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    font-size: 17px;
+    top: 5px;
+    right: 5px;
+  }
+  .modal-box {
+    padding:
+      16px;
+    border-radius:
+      18px;
+  }
+  .modal-buttons {
+    justify-content:
+      center;
+  }
+  .modal-button {
+    flex:
+      1 1 auto;
+    min-width:
+      110px;
   }
 }
 </style>
 </head>
 <body>
+<!-- =========================================
+     ヘッダー
+========================================= -->
 <header>
-  <h1>五十音あつめ</h1>
-  <p>写真を集めて、五十音を完成させよう ♡</p>
-</header>
-<div class="container">
-  <div class="progress-box">
-    <div class="progress-text">
-      <span id="progressNumber" class="progress-number">0</span>
-      / 46 文字 集めました
+  <h1>
+    五十音あつめ
+  </h1>
+  <div class="subtitle">
+    FIND & COLLECT
+  </div>
+  <div class="count">
+    <span id="count">
+      0
+    </span>
+    / 46 文字 集めました
+  </div>
+  <div class="progress-bar">
+    <div
+      class="progress"
+      id="progress">
     </div>
   </div>
-  <div id="kanaGrid" class="kana-grid"></div>
-  <div class="button-area">
-    <button class="main-button" onclick="saveBoard()">
+</header>
+<!-- =========================================
+     メイン
+========================================= -->
+<main>
+  <div class="buttons">
+    <button
+      class="top-button"
+      onclick="saveBoard()">
       一覧を画像保存
     </button>
-    <button class="sub-button" onclick="clearAll()">
+    <button
+      class="top-button"
+      onclick="clearAll()">
       すべて削除
     </button>
   </div>
-</div>
+  <div
+    class="kana-table"
+    id="kanaTable">
+  </div>
+  <div class="notice">
+    好きな写真を見つけて、五十音を集めよう
+  </div>
+</main>
+<!-- =========================================
+     写真選択
+========================================= -->
 <input
   type="file"
   id="fileInput"
   accept="image/*"
+  hidden
 >
-<!-- モーダル -->
-<div id="cropModal" class="modal">
-  <div class="modal-content">
-    <div class="modal-title">
-      写真を調整
-    </div>
-    <div id="cropArea" class="crop-area">
-      <img id="cropImage" alt="">
-    </div>
-    <div class="zoom-area">
-      <div class="zoom-label">
-        拡大・縮小
-      </div>
-      <input
-        type="range"
-        id="zoomSlider"
-        min="1"
-        max="3"
-        step="0.01"
-        value="1"
+<!-- =========================================
+     トリミング画面
+========================================= -->
+<div
+  class="modal"
+  id="modal"
+>
+  <div class="modal-box">
+    <h2 class="modal-title">
+      「<span id="selectedKana"></span>」の写真
+    </h2>
+    <div
+      class="crop-area"
+      id="cropArea"
+    >
+      <img
+        id="cropImage"
+        alt=""
       >
     </div>
+    <label class="zoom-label">
+      写真の大きさ
+    </label>
+    <input
+      class="zoom-slider"
+      id="zoomSlider"
+      type="range"
+      min="1"
+      max="3"
+      step="0.01"
+      value="1"
+    >
     <div class="modal-buttons">
       <button
-        class="cancel-button"
-        onclick="closeModal()"
-      >
+        class="modal-button"
+        onclick="closeModal()">
         キャンセル
       </button>
       <button
-        class="save-photo-button"
-        onclick="saveCurrentPhotoToPhotos()"
-      >
+        class="modal-button save-photo-button"
+        onclick="saveCurrentPhotoToPhotos()">
         写真アプリに保存
       </button>
       <button
-        class="use-button"
-        onclick="usePhoto()"
-      >
+        class="modal-button use-button"
+        onclick="usePhoto()">
         この写真を使う
       </button>
     </div>
   </div>
 </div>
 <script>
-const kanaRows = [
+/* =========================================
+   五十音の配置
+========================================= */
+const rows = [
   ["あ","い","う","え","お"],
   ["か","き","く","け","こ"],
   ["さ","し","す","せ","そ"],
@@ -386,197 +522,584 @@ const kanaRows = [
   ["な","に","ぬ","ね","の"],
   ["は","ひ","ふ","へ","ほ"],
   ["ま","み","む","め","も"],
-  ["や","","ゆ","","よ"],
+  ["や",null,"ゆ",null,"よ"],
   ["ら","り","る","れ","ろ"],
-  ["わ","を","ん","",""]
+  ["わ",null,"を",null,"ん"]
 ];
-const allKana = [
-  "あ","い","う","え","お",
-  "か","き","く","け","こ",
-  "さ","し","す","せ","そ",
-  "た","ち","つ","て","と",
-  "な","に","ぬ","ね","の",
-  "は","ひ","ふ","へ","ほ",
-  "ま","み","む","め","も",
-  "や","ゆ","よ",
-  "ら","り","る","れ","ろ",
-  "わ","を","ん"
-];
+/* =========================================
+   保存データ
+========================================= */
 let photos =
-  JSON.parse(localStorage.getItem("gojuonPhotos") || "{}");
-let currentKana = null;
-let originalImage = null;
-let imageX = 0;
-let imageY = 0;
-let baseScale = 1;
-let baseImageWidth = 0;
-let baseImageHeight = 0;
-let dragging = false;
-let dragStartX = 0;
-let dragStartY = 0;
-const fileInput = document.getElementById("fileInput");
-const cropModal = document.getElementById("cropModal");
-const cropArea = document.getElementById("cropArea");
-const cropImage = document.getElementById("cropImage");
-const zoomSlider = document.getElementById("zoomSlider");
-// ================================
-// 写真選択
-// ================================
-fileInput.addEventListener("change", function () {
-  const file = this.files[0];
-  if (!file || !currentKana) return;
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    const dataURL = e.target.result;
-    originalImage = new Image();
-    originalImage.onload = function () {
-      cropImage.src = dataURL;
-      cropImage.style.display = "block";
-      cropImage.style.visibility = "visible";
-      cropImage.style.opacity = "1";
-      zoomSlider.value = 1;
-      zoomSlider.dataset.oldZoom = 1;
-      cropModal.classList.add("show");
-      requestAnimationFrame(() => {
-        setupCrop();
-      });
-    };
-    originalImage.src = dataURL;
-  };
-  reader.readAsDataURL(file);
-  fileInput.value = "";
-});
-// ================================
-// クロップ初期設定
-// ================================
-function setupCrop() {
-  if (!originalImage) return;
-  const areaWidth = cropArea.clientWidth;
-  const areaHeight = cropArea.clientHeight;
-  const imageWidth = originalImage.naturalWidth;
-  const imageHeight = originalImage.naturalHeight;
-  baseScale = Math.max(
-    areaWidth / imageWidth,
-    areaHeight / imageHeight
+  JSON.parse(
+    localStorage.getItem(
+      "gojuonPhotos"
+    ) || "{}"
   );
-  baseImageWidth = imageWidth * baseScale;
-  baseImageHeight = imageHeight * baseScale;
-  imageX = (areaWidth - baseImageWidth) / 2;
-  imageY = (areaHeight - baseImageHeight) / 2;
-  zoomSlider.value = 1;
-  zoomSlider.dataset.oldZoom = 1;
+/* =========================================
+   トリミング用変数
+========================================= */
+let currentKana =
+  null;
+let originalImage =
+  null;
+let imageX =
+  0;
+let imageY =
+  0;
+let baseScale =
+  1;
+let baseImageWidth =
+  0;
+let baseImageHeight =
+  0;
+let dragging =
+  false;
+let dragStartX =
+  0;
+let dragStartY =
+  0;
+/* =========================================
+   HTML要素
+========================================= */
+const table =
+  document.getElementById(
+    "kanaTable"
+  );
+const fileInput =
+  document.getElementById(
+    "fileInput"
+  );
+const modal =
+  document.getElementById(
+    "modal"
+  );
+const selectedKana =
+  document.getElementById(
+    "selectedKana"
+  );
+const cropArea =
+  document.getElementById(
+    "cropArea"
+  );
+const cropImage =
+  document.getElementById(
+    "cropImage"
+  );
+const zoomSlider =
+  document.getElementById(
+    "zoomSlider"
+  );
+/* =========================================
+   五十音表を表示
+========================================= */
+function renderTable() {
+  table.innerHTML = "";
+  rows.forEach(
+    row => {
+      row.forEach(
+        kana => {
+          const card =
+            document.createElement(
+              "div"
+            );
+          /* 空白 */
+          if (!kana) {
+            card.className =
+              "card empty-position";
+            table.appendChild(
+              card
+            );
+            return;
+          }
+          card.className =
+            "card";
+          /* 五十音ラベル */
+          const label =
+            document.createElement(
+              "div"
+            );
+          label.className =
+            "kana-label";
+          label.textContent =
+            kana;
+          card.appendChild(
+            label
+          );
+          /* 写真がある場合 */
+          if (photos[kana]) {
+            const img =
+              document.createElement(
+                "img"
+              );
+            img.className =
+              "card-photo";
+            img.src =
+              photos[kana];
+            card.appendChild(
+              img
+            );
+            /* 削除 */
+            const deleteButton =
+              document.createElement(
+                "button"
+              );
+            deleteButton.className =
+              "delete-button";
+            deleteButton.textContent =
+              "×";
+            deleteButton.onclick =
+              function(event) {
+                event.stopPropagation();
+                delete photos[kana];
+                savePhotos();
+                renderTable();
+              };
+            card.appendChild(
+              deleteButton
+            );
+          }
+          /* 写真がない場合 */
+          else {
+            const plus =
+              document.createElement(
+                "div"
+              );
+            plus.className =
+              "empty-plus";
+            plus.textContent =
+              "+";
+            card.appendChild(
+              plus
+            );
+          }
+          /* タップ */
+          card.onclick =
+            function() {
+              choosePhoto(
+                kana
+              );
+            };
+          table.appendChild(
+            card
+          );
+        }
+      );
+    }
+  );
+  updateCount();
+}
+/* =========================================
+   カウント
+========================================= */
+function updateCount() {
+  const count =
+    Object.keys(
+      photos
+    ).length;
+  document.getElementById(
+    "count"
+  ).textContent =
+    count;
+  const percent =
+    count / 46 * 100;
+  document.getElementById(
+    "progress"
+  ).style.width =
+    percent + "%";
+}
+/* =========================================
+   写真を選ぶ
+========================================= */
+function choosePhoto(
+  kana
+) {
+  currentKana =
+    kana;
+  fileInput.value =
+    "";
+  fileInput.click();
+}
+/* =========================================
+   写真選択後
+========================================= */
+fileInput.onchange =
+  function() {
+    const file =
+      fileInput.files[0];
+    if (!file) {
+      return;
+    }
+    const reader =
+      new FileReader();
+    reader.onload =
+      function(event) {
+        const dataURL =
+          event.target.result;
+        /*
+          元画像
+        */
+        originalImage =
+          new Image();
+        originalImage.onload =
+          function() {
+            /*
+              トリミング画面に
+              直接画像をセット
+            */
+            cropImage.src =
+              dataURL;
+            cropImage.style.display =
+              "block";
+            cropImage.style.visibility =
+              "visible";
+            cropImage.style.opacity =
+              "1";
+            selectedKana.textContent =
+              currentKana;
+            /*
+              ズーム倍率をリセット
+            */
+            zoomSlider.value =
+              "1";
+            zoomSlider.dataset.oldZoom =
+              "1";
+            /*
+              モーダル表示
+            */
+            modal.classList.add(
+              "show"
+            );
+            /*
+              モーダルのサイズ確定後に
+              写真を中央配置
+            */
+            requestAnimationFrame(
+              function() {
+                setupCrop();
+              }
+            );
+          };
+        originalImage.onerror =
+          function() {
+            alert(
+              "写真を読み込めませんでした。\nもう一度お試しください。"
+            );
+          };
+        originalImage.src =
+          dataURL;
+      };
+    reader.onerror =
+      function() {
+        alert(
+          "写真を読み込めませんでした。"
+        );
+      };
+    reader.readAsDataURL(
+      file
+    );
+  };
+/* =========================================
+   トリミング準備
+========================================= */
+function setupCrop() {
+  if (!originalImage) {
+    return;
+  }
+  const areaWidth =
+    cropArea.clientWidth;
+  const areaHeight =
+    cropArea.clientHeight;
+  const imageWidth =
+    originalImage.naturalWidth ||
+    originalImage.width;
+  const imageHeight =
+    originalImage.naturalHeight ||
+    originalImage.height;
+  if (
+    !areaWidth ||
+    !areaHeight ||
+    !imageWidth ||
+    !imageHeight
+  ) {
+    setTimeout(
+      setupCrop,
+      50
+    );
+    return;
+  }
+  /*
+    枠を完全に覆う倍率
+  */
+  baseScale =
+    Math.max(
+      areaWidth / imageWidth,
+      areaHeight / imageHeight
+    );
+  baseImageWidth =
+    imageWidth *
+    baseScale;
+  baseImageHeight =
+    imageHeight *
+    baseScale;
+  /*
+    中央配置
+  */
+  imageX =
+    (
+      areaWidth -
+      baseImageWidth
+    ) / 2;
+  imageY =
+    (
+      areaHeight -
+      baseImageHeight
+    ) / 2;
+  zoomSlider.value =
+    "1";
+  zoomSlider.dataset.oldZoom =
+    "1";
   updateCropImage();
 }
-// ================================
-// 画像位置更新
-// ================================
+/* =========================================
+   写真表示
+========================================= */
 function updateCropImage() {
-  const zoom = Number(zoomSlider.value);
-  const width = baseImageWidth * zoom;
-  const height = baseImageHeight * zoom;
-  cropImage.style.width = width + "px";
-  cropImage.style.height = height + "px";
-  cropImage.style.left = imageX + "px";
-  cropImage.style.top = imageY + "px";
+  if (!originalImage) {
+    return;
+  }
+  const zoom =
+    Number(
+      zoomSlider.value
+    );
+  const width =
+    baseImageWidth *
+    zoom;
+  const height =
+    baseImageHeight *
+    zoom;
+  cropImage.style.width =
+    width + "px";
+  cropImage.style.height =
+    height + "px";
+  cropImage.style.left =
+    imageX + "px";
+  cropImage.style.top =
+    imageY + "px";
   keepImageInside();
 }
-// ================================
-// 画像が枠から出ないようにする
-// ================================
+/* =========================================
+   写真を枠内に制限
+========================================= */
 function keepImageInside() {
-  const areaWidth = cropArea.clientWidth;
-  const areaHeight = cropArea.clientHeight;
-  const zoom = Number(zoomSlider.value);
-  const width = baseImageWidth * zoom;
-  const height = baseImageHeight * zoom;
-  if (width >= areaWidth) {
-    imageX = Math.min(
-      0,
-      Math.max(areaWidth - width, imageX)
+  const areaWidth =
+    cropArea.clientWidth;
+  const areaHeight =
+    cropArea.clientHeight;
+  const zoom =
+    Number(
+      zoomSlider.value
     );
-  } else {
-    imageX = (areaWidth - width) / 2;
-  }
-  if (height >= areaHeight) {
-    imageY = Math.min(
+  const width =
+    baseImageWidth *
+    zoom;
+  const height =
+    baseImageHeight *
+    zoom;
+  /*
+    横
+  */
+  const minX =
+    Math.min(
       0,
-      Math.max(areaHeight - height, imageY)
+      areaWidth - width
     );
-  } else {
-    imageY = (areaHeight - height) / 2;
+  const maxX =
+    Math.max(
+      0,
+      areaWidth - width
+    );
+  /*
+    縦
+  */
+  const minY =
+    Math.min(
+      0,
+      areaHeight - height
+    );
+  const maxY =
+    Math.max(
+      0,
+      areaHeight - height
+    );
+  if (imageX < minX) {
+    imageX = minX;
   }
-  cropImage.style.left = imageX + "px";
-  cropImage.style.top = imageY + "px";
+  if (imageX > maxX) {
+    imageX = maxX;
+  }
+  if (imageY < minY) {
+    imageY = minY;
+  }
+  if (imageY > maxY) {
+    imageY = maxY;
+  }
+  cropImage.style.left =
+    imageX + "px";
+  cropImage.style.top =
+    imageY + "px";
 }
-// ================================
-// ズーム
-// ================================
-zoomSlider.addEventListener("input", function () {
-  const oldZoom =
-    Number(zoomSlider.dataset.oldZoom || 1);
-  const newZoom =
-    Number(zoomSlider.value);
-  const areaWidth = cropArea.clientWidth;
-  const areaHeight = cropArea.clientHeight;
-  const centerX = areaWidth / 2;
-  const centerY = areaHeight / 2;
-  const oldWidth = baseImageWidth * oldZoom;
-  const oldHeight = baseImageHeight * oldZoom;
-  const imagePointX =
-    (centerX - imageX) / oldWidth;
-  const imagePointY =
-    (centerY - imageY) / oldHeight;
-  const newWidth = baseImageWidth * newZoom;
-  const newHeight = baseImageHeight * newZoom;
-  imageX =
-    centerX - imagePointX * newWidth;
-  imageY =
-    centerY - imagePointY * newHeight;
-  zoomSlider.dataset.oldZoom = newZoom;
-  updateCropImage();
-});
-// ================================
-// ドラッグ
-// ================================
-cropArea.addEventListener("pointerdown", function (e) {
-  dragging = true;
-  cropArea.setPointerCapture(e.pointerId);
-  dragStartX = e.clientX - imageX;
-  dragStartY = e.clientY - imageY;
-});
-cropArea.addEventListener("pointermove", function (e) {
-  if (!dragging) return;
-  imageX = e.clientX - dragStartX;
-  imageY = e.clientY - dragStartY;
-  updateCropImage();
-});
-cropArea.addEventListener("pointerup", function () {
-  dragging = false;
-});
-cropArea.addEventListener("pointercancel", function () {
-  dragging = false;
-});
-// ================================
-// クロップ画像作成
-// ================================
+/* =========================================
+   ズーム
+========================================= */
+zoomSlider.oninput =
+  function() {
+    const oldZoom =
+      Number(
+        zoomSlider.dataset.oldZoom ||
+        1
+      );
+    const newZoom =
+      Number(
+        zoomSlider.value
+      );
+    const areaWidth =
+      cropArea.clientWidth;
+    const areaHeight =
+      cropArea.clientHeight;
+    const centerX =
+      areaWidth / 2;
+    const centerY =
+      areaHeight / 2;
+    /*
+      中央位置を維持
+    */
+    const imagePointX =
+      (
+        centerX -
+        imageX
+      ) / oldZoom;
+    const imagePointY =
+      (
+        centerY -
+        imageY
+      ) / oldZoom;
+    imageX =
+      centerX -
+      imagePointX *
+      newZoom;
+    imageY =
+      centerY -
+      imagePointY *
+      newZoom;
+    zoomSlider.dataset.oldZoom =
+      newZoom;
+    updateCropImage();
+  };
+/* =========================================
+   写真を指で移動
+========================================= */
+cropArea.onpointerdown =
+  function(event) {
+    dragging =
+      true;
+    dragStartX =
+      event.clientX;
+    dragStartY =
+      event.clientY;
+    cropArea.setPointerCapture(
+      event.pointerId
+    );
+  };
+cropArea.onpointermove =
+  function(event) {
+    if (!dragging) {
+      return;
+    }
+    const moveX =
+      event.clientX -
+      dragStartX;
+    const moveY =
+      event.clientY -
+      dragStartY;
+    imageX +=
+      moveX;
+    imageY +=
+      moveY;
+    dragStartX =
+      event.clientX;
+    dragStartY =
+      event.clientY;
+    updateCropImage();
+  };
+cropArea.onpointerup =
+  function() {
+    dragging =
+      false;
+  };
+cropArea.onpointercancel =
+  function() {
+    dragging =
+      false;
+  };
+/* =========================================
+   Canvasを作る
+========================================= */
 function createCroppedCanvas() {
-  const canvas = document.createElement("canvas");
-  canvas.width = 800;
-  canvas.height = 800;
-  const ctx = canvas.getContext("2d");
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, 800, 800);
-  const areaWidth = cropArea.clientWidth;
-  const ratio = 800 / areaWidth;
-  const zoom = Number(zoomSlider.value);
+  if (!originalImage) {
+    return null;
+  }
+  const canvas =
+    document.createElement(
+      "canvas"
+    );
+  const size =
+    800;
+  canvas.width =
+    size;
+  canvas.height =
+    size;
+  const ctx =
+    canvas.getContext(
+      "2d"
+    );
+  /*
+    背景
+  */
+  ctx.fillStyle =
+    "#ffffff";
+  ctx.fillRect(
+    0,
+    0,
+    size,
+    size
+  );
+  /*
+    トリミング画面→800px
+  */
+  const ratio =
+    size /
+    cropArea.clientWidth;
+  const zoom =
+    Number(
+      zoomSlider.value
+    );
   const drawWidth =
-    baseImageWidth * zoom * ratio;
+    baseImageWidth *
+    zoom *
+    ratio;
   const drawHeight =
-    baseImageHeight * zoom * ratio;
+    baseImageHeight *
+    zoom *
+    ratio;
   const drawX =
-    imageX * ratio;
+    imageX *
+    ratio;
   const drawY =
-    imageY * ratio;
+    imageY *
+    ratio;
+  /*
+    写真を描画
+  */
   ctx.drawImage(
     originalImage,
     drawX,
@@ -586,370 +1109,483 @@ function createCroppedCanvas() {
   );
   return canvas;
 }
-// ================================
-// この写真を使う
-// ================================
+/* =========================================
+   五十音表に写真を入れる
+========================================= */
 function usePhoto() {
-  if (!currentKana || !originalImage) return;
-  const canvas = createCroppedCanvas();
+  const canvas =
+    createCroppedCanvas();
+  if (!canvas) {
+    alert(
+      "写真を読み込めませんでした。"
+    );
+    return;
+  }
   photos[currentKana] =
-    canvas.toDataURL("image/jpeg", 0.88);
+    canvas.toDataURL(
+      "image/jpeg",
+      0.88
+    );
   savePhotos();
   closeModal();
   renderTable();
 }
-// ================================
-// 写真アプリに保存
-// ================================
+/* =========================================
+   現在の写真をiPhoneへ保存
+========================================= */
 async function saveCurrentPhotoToPhotos() {
-  if (!originalImage) return;
-  const canvas = createCroppedCanvas();
-  canvas.toBlob(async function (blob) {
-    if (!blob) return;
-    const file = new File(
-      [blob],
-      "五十音あつめ.png",
-      {
-        type: "image/png"
-      }
+  const canvas =
+    createCroppedCanvas();
+  if (!canvas) {
+    alert(
+      "写真を読み込めませんでした。"
     );
-    try {
+    return;
+  }
+  canvas.toBlob(
+    async function(blob) {
+      if (!blob) {
+        alert(
+          "画像を作成できませんでした。"
+        );
+        return;
+      }
+      const file =
+        new File(
+          [blob],
+          "五十音あつめ_" +
+          currentKana +
+          ".png",
+          {
+            type:
+              "image/png"
+          }
+        );
+      /*
+        iPhoneの共有機能が使える場合
+      */
       if (
         navigator.share &&
         navigator.canShare &&
-        navigator.canShare({ files: [file] })
+        navigator.canShare({
+          files: [file]
+        })
       ) {
-        await navigator.share({
-          files: [file],
-          title: "五十音あつめ"
-        });
-      } else {
-        const url =
-          URL.createObjectURL(blob);
-        window.open(url, "_blank");
-        alert(
-          "画像を長押しして「写真に保存」を選んでください。"
-        );
+        try {
+          await navigator.share({
+            files: [file],
+            title:
+              "五十音あつめ「" +
+              currentKana +
+              "」"
+          });
+        }
+        catch (error) {
+          /*
+            共有画面を閉じただけなら
+            エラー表示しない
+          */
+          if (
+            error.name !==
+            "AbortError"
+          ) {
+            alert(
+              "画像を共有できませんでした。"
+            );
+          }
+        }
+        return;
       }
-    } catch (error) {
-      console.log(error);
-    }
-  }, "image/png");
+      /*
+        共有機能が使えない場合
+      */
+      const url =
+        URL.createObjectURL(
+          blob
+        );
+      window.open(
+        url,
+        "_blank"
+      );
+      setTimeout(
+        function() {
+          URL.revokeObjectURL(
+            url
+          );
+        },
+        10000
+      );
+      alert(
+        "画像が開きました。\n画像を長押しして「写真に保存」を選択してください。"
+      );
+    },
+    "image/png"
+  );
 }
-// ================================
-// モーダルを閉じる
-// ================================
+/* =========================================
+   モーダルを閉じる
+========================================= */
 function closeModal() {
-  cropModal.classList.remove("show");
-  currentKana = null;
-  originalImage = null;
-  cropImage.src = "";
-  cropImage.style.display = "none";
+  modal.classList.remove(
+    "show"
+  );
+  dragging =
+    false;
+  cropImage.src =
+    "";
+  originalImage =
+    null;
 }
-// ================================
-// localStorage保存
-// ================================
+/* =========================================
+   アプリ内保存
+========================================= */
 function savePhotos() {
   try {
     localStorage.setItem(
       "gojuonPhotos",
-      JSON.stringify(photos)
+      JSON.stringify(
+        photos
+      )
     );
-  } catch (error) {
+  }
+  catch (error) {
     alert(
-      "写真の保存容量がいっぱいになりました。\n一部の写真を削除してください。"
+      "保存容量がいっぱいになりました。\n不要な写真を削除してみてください。"
     );
   }
 }
-// ================================
-// 五十音表表示
-// ================================
-function renderTable() {
-  const grid =
-    document.getElementById("kanaGrid");
-  grid.innerHTML = "";
-  kanaRows.forEach(row => {
-    const rowElement =
-      document.createElement("div");
-    rowElement.className = "kana-row";
-    row.forEach(kana => {
-      const card =
-        document.createElement("div");
-      card.className = "kana-card";
-      if (!kana) {
-        card.style.visibility = "hidden";
-        rowElement.appendChild(card);
-        return;
-      }
-      if (photos[kana]) {
-        const img =
-          document.createElement("img");
-        img.src = photos[kana];
-        card.appendChild(img);
-        const label =
-          document.createElement("div");
-        label.className = "kana-label";
-        label.textContent = kana;
-        card.appendChild(label);
-        const deleteBtn =
-          document.createElement("button");
-        deleteBtn.className = "delete-btn";
-        deleteBtn.textContent = "×";
-        deleteBtn.onclick = function (e) {
-          e.stopPropagation();
-          if (
-            confirm(
-              `「${kana}」の写真を削除しますか？`
-            )
-          ) {
-            delete photos[kana];
-            savePhotos();
-            renderTable();
-          }
-        };
-        card.appendChild(deleteBtn);
-      } else {
-        const empty =
-          document.createElement("div");
-        empty.className = "kana-empty";
-        const kanaText =
-          document.createElement("div");
-        kanaText.className = "kana";
-        kanaText.textContent = kana;
-        const plus =
-          document.createElement("div");
-        plus.className = "plus";
-        plus.textContent = "+";
-        empty.appendChild(kanaText);
-        empty.appendChild(plus);
-        card.appendChild(empty);
-      }
-      card.onclick = function () {
-        currentKana = kana;
-        fileInput.click();
-      };
-      rowElement.appendChild(card);
-    });
-    grid.appendChild(rowElement);
-  });
-  updateProgress();
-}
-// ================================
-// 進捗
-// ================================
-function updateProgress() {
-  const count =
-    allKana.filter(kana => photos[kana]).length;
-  document.getElementById(
-    "progressNumber"
-  ).textContent = count;
-}
-// ================================
-// 一覧を画像保存
-// ================================
-async function saveBoard() {
-  const canvas =
-    document.createElement("canvas");
-  const canvasWidth = 1200;
-  const cardWidth = 210;
-  const cardHeight = 210;
-  const gap = 20;
-  const rows = kanaRows.length;
-  canvas.width = canvasWidth;
-  canvas.height =
-    150 +
-    rows * (cardHeight + gap) +
-    60;
-  const ctx =
-    canvas.getContext("2d");
-  ctx.fillStyle = "#e9eff2";
-  ctx.fillRect(
-    0,
-    0,
-    canvas.width,
-    canvas.height
-  );
-  ctx.fillStyle = "#526a75";
-  ctx.textAlign = "center";
-  ctx.font =
-    "bold 42px 'Hiragino Maru Gothic ProN', sans-serif";
-  ctx.fillText(
-    "五十音あつめ",
-    canvas.width / 2,
-    70
-  );
-  const startX = 55;
-  const startY = 120;
-  for (
-    let r = 0;
-    r < kanaRows.length;
-    r++
-  ) {
-    for (
-      let c = 0;
-      c < 5;
-      c++
-    ) {
-      const kana =
-        kanaRows[r][c];
-      if (!kana) continue;
-      const x =
-        startX +
-        c * (cardWidth + gap);
-      const y =
-        startY +
-        r * (cardHeight + gap);
-      if (photos[kana]) {
-        const img =
-          new Image();
-        img.src = photos[kana];
-        await new Promise(resolve => {
-          img.onload = resolve;
-          img.onerror = resolve;
-        });
-        ctx.drawImage(
-          img,
-          x,
-          y,
-          cardWidth,
-          cardHeight
-        );
-      } else {
-        drawEmptyKana(
-          ctx,
-          kana,
-          x,
-          y,
-          cardWidth,
-          cardHeight
-        );
-      }
-      drawKanaLabel(
-        ctx,
-        kana,
-        x,
-        y,
-        cardWidth,
-        cardHeight
-      );
-    }
-  }
-  canvas.toBlob(async function (blob) {
-    if (!blob) return;
-    const file = new File(
-      [blob],
-      "五十音あつめ.png",
-      {
-        type: "image/png"
-      }
-    );
-    try {
-      if (
-        navigator.share &&
-        navigator.canShare &&
-        navigator.canShare({ files: [file] })
-      ) {
-        await navigator.share({
-          files: [file],
-          title: "五十音あつめ"
-        });
-      } else {
-        const url =
-          URL.createObjectURL(blob);
-        window.open(url, "_blank");
-        alert(
-          "画像を長押しして「写真に保存」を選んでください。"
-        );
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, "image/png");
-}
-// ================================
-// 空のマス
-// ================================
-function drawEmptyKana(
-  ctx,
-  kana,
-  x,
-  y,
-  width,
-  height
-) {
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(
-    x,
-    y,
-    width,
-    height
-  );
-  ctx.fillStyle = "#8ca0aa";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.font =
-    "bold 60px 'Hiragino Maru Gothic ProN', sans-serif";
-  ctx.fillText(
-    kana,
-    x + width / 2,
-    y + height / 2 - 15
-  );
-  ctx.font =
-    "42px sans-serif";
-  ctx.fillText(
-    "+",
-    x + width / 2,
-    y + height / 2 + 55
-  );
-}
-// ================================
-// 文字ラベル
-// ================================
-function drawKanaLabel(
-  ctx,
-  kana,
-  x,
-  y,
-  width,
-  height
-) {
-  ctx.fillStyle =
-    "rgba(255,255,255,0.9)";
-  ctx.fillRect(
-    x + 10,
-    y + height - 48,
-    40,
-    38
-  );
-  ctx.fillStyle = "#526a75";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.font =
-    "bold 22px 'Hiragino Maru Gothic ProN', sans-serif";
-  ctx.fillText(
-    kana,
-    x + 30,
-    y + height - 29
-  );
-}
-// ================================
-// すべて削除
-// ================================
+/* =========================================
+   全削除
+========================================= */
 function clearAll() {
-  if (
-    !confirm(
+  const ok =
+    confirm(
       "集めた写真をすべて削除しますか？"
-    )
-  ) {
+    );
+  if (!ok) {
     return;
   }
   photos = {};
   savePhotos();
   renderTable();
 }
-// ================================
-// 初期表示
-// ================================
+/* =========================================
+   一覧画像保存
+========================================= */
+async function saveBoard() {
+  const canvas =
+    document.createElement(
+      "canvas"
+    );
+  const width =
+    1200;
+  const margin =
+    70;
+  const gap =
+    14;
+  const columns =
+    5;
+  const cell =
+    (
+      width -
+      margin * 2 -
+      gap * 4
+    ) / columns;
+  const rowHeight =
+    cell + gap;
+  const height =
+    180 +
+    rows.length *
+    rowHeight +
+    margin;
+  canvas.width =
+    width;
+  canvas.height =
+    height;
+  const ctx =
+    canvas.getContext(
+      "2d"
+    );
+  /*
+    背景
+  */
+  ctx.fillStyle =
+    "#f7f6f2";
+  ctx.fillRect(
+    0,
+    0,
+    width,
+    height
+  );
+  /*
+    タイトル
+  */
+  ctx.fillStyle =
+    "#292824";
+  ctx.font =
+    "500 46px Georgia";
+  ctx.fillText(
+    "五十音あつめ",
+    margin,
+    70
+  );
+  /*
+    カウント
+  */
+  ctx.fillStyle =
+    "#88847c";
+  ctx.font =
+    "18px sans-serif";
+  ctx.fillText(
+    Object.keys(
+      photos
+    ).length +
+    " / 46 文字",
+    margin,
+    108
+  );
+  /*
+    写真読み込み
+  */
+  const imagePromises =
+    [];
+  rows.forEach(
+    (row, rowIndex) => {
+      row.forEach(
+        (kana, colIndex) => {
+          if (!kana) {
+            return;
+          }
+          const x =
+            margin +
+            colIndex *
+            (cell + gap);
+          const y =
+            150 +
+            rowIndex *
+            rowHeight;
+          /*
+            マス
+          */
+          ctx.fillStyle =
+            "#fffefa";
+          ctx.fillRect(
+            x,
+            y,
+            cell,
+            cell
+          );
+          ctx.strokeStyle =
+            "#dedbd2";
+          ctx.strokeRect(
+            x,
+            y,
+            cell,
+            cell
+          );
+          /*
+            写真あり
+          */
+          if (photos[kana]) {
+            imagePromises.push(
+              new Promise(
+                resolve => {
+                  const img =
+                    new Image();
+                  img.onload =
+                    function() {
+                      ctx.drawImage(
+                        img,
+                        x,
+                        y,
+                        cell,
+                        cell
+                      );
+                      drawKanaLabel(
+                        ctx,
+                        kana,
+                        x,
+                        y
+                      );
+                      resolve();
+                    };
+                  img.onerror =
+                    function() {
+                      drawEmptyKana(
+                        ctx,
+                        kana,
+                        x,
+                        y,
+                        cell
+                      );
+                      resolve();
+                    };
+                  img.src =
+                    photos[kana];
+                }
+              )
+            );
+          }
+          else {
+            drawEmptyKana(
+              ctx,
+              kana,
+              x,
+              y,
+              cell
+            );
+          }
+        }
+      );
+    }
+  );
+  await Promise.all(
+    imagePromises
+  );
+  /*
+    PNG化
+  */
+  canvas.toBlob(
+    async function(blob) {
+      if (!blob) {
+        alert(
+          "画像を作成できませんでした。"
+        );
+        return;
+      }
+      const file =
+        new File(
+          [blob],
+          "五十音あつめ.png",
+          {
+            type:
+              "image/png"
+          }
+        );
+      /*
+        iPhone共有シート
+      */
+      if (
+        navigator.share &&
+        navigator.canShare &&
+        navigator.canShare({
+          files: [file]
+        })
+      ) {
+        try {
+          await navigator.share({
+            files: [file],
+            title:
+              "五十音あつめ"
+          });
+        }
+        catch (error) {
+          if (
+            error.name !==
+            "AbortError"
+          ) {
+            alert(
+              "画像を共有できませんでした。"
+            );
+          }
+        }
+        return;
+      }
+      /*
+        非対応ブラウザ用
+      */
+      const url =
+        URL.createObjectURL(
+          blob
+        );
+      window.open(
+        url,
+        "_blank"
+      );
+      setTimeout(
+        function() {
+          URL.revokeObjectURL(
+            url
+          );
+        },
+        10000
+      );
+      alert(
+        "画像が開きました。\n画像を長押しして「写真に保存」を選択してください。"
+      );
+    },
+    "image/png"
+  );
+}
+/* =========================================
+   一覧画像の五十音ラベル
+========================================= */
+function drawKanaLabel(
+  ctx,
+  kana,
+  x,
+  y
+) {
+  ctx.fillStyle =
+    "rgba(255,254,250,.94)";
+  ctx.beginPath();
+  ctx.arc(
+    x + 29,
+    y + 29,
+    21,
+    0,
+    Math.PI * 2
+  );
+  ctx.fill();
+  ctx.fillStyle =
+    "#292824";
+  ctx.font =
+    "22px Georgia";
+  ctx.textAlign =
+    "center";
+  ctx.textBaseline =
+    "middle";
+  ctx.fillText(
+    kana,
+    x + 29,
+    y + 29
+  );
+  ctx.textAlign =
+    "start";
+  ctx.textBaseline =
+    "alphabetic";
+}
+/* =========================================
+   空のマス
+========================================= */
+function drawEmptyKana(
+  ctx,
+  kana,
+  x,
+  y,
+  cell
+) {
+  ctx.fillStyle =
+    "#aaa69d";
+  ctx.font =
+    "28px Georgia";
+  ctx.textAlign =
+    "center";
+  ctx.textBaseline =
+    "middle";
+  ctx.fillText(
+    kana,
+    x + cell / 2,
+    y + cell / 2
+  );
+  ctx.textAlign =
+    "start";
+  ctx.textBaseline =
+    "alphabetic";
+}
+/* =========================================
+   起動
+========================================= */
 renderTable();
 </script>
 </body>
