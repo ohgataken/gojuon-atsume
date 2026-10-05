@@ -740,16 +740,20 @@ fileInput.onchange =
 
 
         originalImage.onload =
-          function() {
+  function() {
 
-            setupCrop();
+    selectedKana.textContent =
+      currentKana;
 
-            selectedKana.textContent =
-              currentKana;
+    modal.classList.add("show");
 
-            modal.classList.add("show");
+    requestAnimationFrame(
+      function() {
+        setupCrop();
+      }
+    );
 
-          };
+  };
 
 
         originalImage.src =
