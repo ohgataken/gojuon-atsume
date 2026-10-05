@@ -8,9 +8,6 @@
 * {
   box-sizing: border-box;
 }
-html {
-  -webkit-text-size-adjust: 100%;
-}
 body {
   margin: 0;
   font-family:
@@ -19,206 +16,122 @@ body {
     "Yu Gothic",
     "Meiryo",
     sans-serif;
-  background:
-    linear-gradient(
-      180deg,
-      #edf7fa 0%,
-      #f7fbfc 45%,
-      #eef5f7 100%
-    );
-  color: #506873;
-  letter-spacing: 0.025em;
+  background: #f7f9fa;
+  color: #4d6672;
+  letter-spacing: 0.02em;
 }
 /* =========================================
    ヘッダー
 ========================================= */
 header {
-  position: relative;
-  overflow: hidden;
-  background:
-    linear-gradient(
-      135deg,
-      #8daab6 0%,
-      #7898a5 55%,
-      #6f8e9b 100%
-    );
+  background: #587b8c;
   color: #ffffff;
   text-align: center;
-  padding: 25px 16px 22px;
-  box-shadow:
-    0 4px 18px rgba(86, 116, 128, 0.18);
-}
-header::before {
-  content: "";
-  position: absolute;
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  background:
-    rgba(220, 244, 250, 0.15);
-  top: -80px;
-  left: -45px;
-}
-header::after {
-  content: "";
-  position: absolute;
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  background:
-    rgba(255, 255, 255, 0.08);
-  right: -70px;
-  bottom: -100px;
+  padding: 24px 16px 21px;
 }
 header h1 {
-  position: relative;
-  z-index: 1;
   margin: 0;
   font-size: 24px;
-  font-weight: 700;
-  letter-spacing: 0.09em;
-  text-shadow:
-    0 2px 5px rgba(70, 95, 105, 0.15);
+  font-weight: 600;
+  letter-spacing: 0.08em;
 }
 header p {
-  position: relative;
-  z-index: 1;
   margin: 7px 0 0;
   font-size: 11px;
-  letter-spacing: 0.06em;
-  color:
-    rgba(255,255,255,0.92);
+  opacity: 0.9;
+  letter-spacing: 0.08em;
 }
 /* =========================================
-   全体
+   メイン
 ========================================= */
-.container {
-  width: 100%;
-  max-width: 900px;
+main {
+  max-width: 700px;
   margin: 0 auto;
-  padding: 18px 14px 42px;
+  padding: 22px 14px 35px;
 }
 /* =========================================
    進捗
 ========================================= */
 .progress-box {
-  background:
-    rgba(255, 255, 255, 0.92);
-  border:
-    1px solid #d8e8ed;
-  border-radius: 18px;
-  padding: 13px 16px;
-  margin-bottom: 17px;
+  background: #ffffff;
+  border: 1px solid #d9e4e8;
+  border-radius: 10px;
+  padding: 13px 15px;
+  margin-bottom: 16px;
   text-align: center;
-  box-shadow:
-    0 5px 18px rgba(86, 116, 128, 0.08);
-}
-.progress-text {
-  font-size: 13px;
-  font-weight: 600;
-  color: #667f89;
-  letter-spacing: 0.06em;
 }
 .progress-number {
-  color: #769baa;
   font-size: 20px;
-  font-weight: 700;
-  letter-spacing: 0;
+  font-weight: 600;
+  color: #4f7487;
+}
+.progress-text {
+  margin-top: 2px;
+  font-size: 13px;
+  color: #718892;
 }
 /* =========================================
    五十音グリッド
 ========================================= */
-.kana-grid {
-  display: grid;
-  gap: 9px;
-}
 .kana-row {
   display: grid;
-  grid-template-columns:
-    repeat(5, 1fr);
-  gap: 9px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 8px;
 }
-/* =========================================
-   カード
-========================================= */
-.kana-card {
+.kana-row.special {
+  grid-template-columns: repeat(5, 1fr);
+}
+.kana-item {
   position: relative;
   aspect-ratio: 1 / 1;
-  background:
-    rgba(255, 255, 255, 0.96);
-  border:
-    1px solid #d4e5ea;
-  border-radius: 15px;
+  background: #ffffff;
+  border: 1px solid #d7e3e7;
+  border-radius: 9px;
   overflow: hidden;
   cursor: pointer;
-  box-shadow:
-    0 4px 12px rgba(82, 112, 123, 0.08);
-  transition:
-    transform 0.16s ease,
-    box-shadow 0.16s ease;
 }
-.kana-card:hover {
-  box-shadow:
-    0 7px 17px rgba(82, 112, 123, 0.13);
-}
-.kana-card:active {
-  transform: scale(0.965);
-}
-/* =========================================
-   空カード
-========================================= */
-.kana-empty {
-  width: 100%;
-  height: 100%;
+.kana-item.empty {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  color: #89a4ae;
 }
-.kana-empty .kana {
+.kana-item.empty:hover {
+  background: #f1f7f9;
+}
+.kana-empty {
   font-size: 25px;
-  font-weight: 600;
-  letter-spacing: 0.03em;
+  color: #7895a2;
+  font-weight: 500;
 }
-.plus {
-  font-size: 19px;
-  line-height: 1;
-  margin-top: 6px;
-  color: #b0ccd5;
-  font-weight: 300;
-}
-/* =========================================
-   写真
-========================================= */
-.kana-card img {
+.kana-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
+/*
+  写真が入った場合、
+  文字・ラベル・＋は表示しない
+*/
+.kana-item.has-photo .kana-label,
+.kana-item.has-photo .kana-empty {
+  display: none;
+}
 /* =========================================
-   かなラベル
+   ラベル
 ========================================= */
 .kana-label {
   position: absolute;
-  left: 6px;
-  bottom: 6px;
-  min-width: 28px;
-  height: 27px;
-  padding: 0 7px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background:
-    rgba(255, 255, 255, 0.91);
-  color: #59727d;
-  border-radius: 9px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 7px 4px;
+  background: rgba(255,255,255,0.9);
+  color: #587b8c;
+  text-align: center;
   font-size: 13px;
-  font-weight: 700;
-  box-shadow:
-    0 2px 7px rgba(65, 91, 101, 0.14);
-  backdrop-filter: blur(4px);
+  font-weight: 500;
 }
 /* =========================================
    削除ボタン
@@ -227,78 +140,55 @@ header p {
   position: absolute;
   top: 5px;
   right: 5px;
-  width: 25px;
-  height: 25px;
+  width: 24px;
+  height: 24px;
   border: none;
   border-radius: 50%;
-  background:
-    rgba(79, 101, 111, 0.68);
+  background: rgba(70, 96, 108, 0.85);
   color: #ffffff;
   font-size: 15px;
-  line-height: 25px;
+  line-height: 24px;
   padding: 0;
   cursor: pointer;
   z-index: 5;
-  -webkit-tap-highlight-color: transparent;
 }
 /* =========================================
-   ボタンエリア
+   ボタン
 ========================================= */
 .button-area {
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 9px;
-  margin-top: 21px;
 }
-button {
-  font-family: inherit;
-}
-/* =========================================
-   メインボタン
-========================================= */
 .main-button {
   width: 100%;
   border: none;
-  border-radius: 15px;
-  padding: 13px 16px;
-  background:
-    linear-gradient(
-      135deg,
-      #8eb6c3,
-      #789eab
-    );
+  border-radius: 9px;
+  background: #587b8c;
   color: #ffffff;
+  padding: 13px 15px;
+  font-family: inherit;
   font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  box-shadow:
-    0 5px 13px rgba(86, 119, 131, 0.18);
+  font-weight: 500;
   cursor: pointer;
 }
-.main-button:active {
-  transform: scale(0.98);
+.main-button:hover {
+  background: #4d7081;
 }
-/* =========================================
-   サブボタン
-========================================= */
 .sub-button {
   width: 100%;
-  border:
-    1px solid #c7dce3;
-  border-radius: 15px;
-  padding: 11px 16px;
-  background:
-    rgba(255, 255, 255, 0.78);
-  color: #718994;
+  border: 1px solid #cbdbe0;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #607d89;
+  padding: 11px 15px;
+  font-family: inherit;
   font-size: 13px;
-  font-weight: 600;
   cursor: pointer;
 }
-/* =========================================
-   ファイル入力
-========================================= */
-#fileInput {
-  display: none;
+.sub-button:hover {
+  background: #f2f7f8;
 }
 /* =========================================
    モーダル
@@ -306,170 +196,130 @@ button {
 .modal {
   position: fixed;
   inset: 0;
-  background:
-    rgba(57, 78, 87, 0.60);
+  background: rgba(43, 62, 70, 0.58);
   display: none;
   align-items: center;
   justify-content: center;
-  padding: 18px;
   z-index: 100;
-  backdrop-filter: blur(5px);
+  padding: 18px;
 }
 .modal.show {
   display: flex;
 }
 .modal-content {
-  width: min(92vw, 500px);
-  max-height: 92vh;
-  overflow-y: auto;
-  background:
-    #f9fcfd;
-  border:
-    1px solid #d9e8ec;
-  border-radius: 21px;
-  padding: 17px;
-  box-shadow:
-    0 15px 45px rgba(45, 67, 77, 0.28);
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 10px 35px rgba(40, 65, 75, 0.2);
 }
 .modal-title {
+  margin: 0 0 13px;
   text-align: center;
-  color: #5c7580;
   font-size: 16px;
-  font-weight: 700;
-  margin: 2px 0 13px;
-  letter-spacing: 0.06em;
+  font-weight: 600;
+  color: #587b8c;
 }
 /* =========================================
-   クロップエリア
+   クロップ
 ========================================= */
 .crop-area {
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
-  background:
-    #dcecf1;
-  border-radius: 16px;
   overflow: hidden;
+  background: #edf2f4;
+  border-radius: 7px;
   touch-action: none;
-  box-shadow:
-    inset 0 0 0 1px #c7dce2,
-    0 4px 12px rgba(70, 95, 105, 0.08);
 }
 #cropImage {
   position: absolute;
   max-width: none;
+  max-height: none;
   user-select: none;
   -webkit-user-drag: none;
-  pointer-events: none;
-  display: none;
+  cursor: grab;
+}
+#cropImage:active {
+  cursor: grabbing;
 }
 /* =========================================
    ズーム
 ========================================= */
 .zoom-area {
-  margin: 15px 0 12px;
+  margin: 14px 0 4px;
 }
-.zoom-label {
-  text-align: center;
+.zoom-area label {
+  display: block;
+  margin-bottom: 6px;
   font-size: 12px;
-  color: #78909a;
-  margin-bottom: 7px;
+  color: #708791;
 }
 #zoomSlider {
   width: 100%;
-  accent-color: #7fa8b5;
+  accent-color: #587b8c;
 }
 /* =========================================
    モーダルボタン
 ========================================= */
 .modal-buttons {
-  display: grid;
+  display: flex;
   gap: 8px;
+  margin-top: 14px;
 }
 .modal-buttons button {
-  border: none;
-  border-radius: 14px;
-  padding: 12px;
+  flex: 1;
+  border-radius: 8px;
+  padding: 11px 7px;
+  font-family: inherit;
   font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.03em;
   cursor: pointer;
 }
 .cancel-button {
-  background:
-    #e8f0f3;
-  color:
-    #71858d;
+  border: 1px solid #d2dfe3;
+  background: #ffffff;
+  color: #708791;
 }
 .save-photo-button {
-  background:
-    #a4c5ce;
-  color:
-    #ffffff;
+  border: 1px solid #b9cfd7;
+  background: #edf5f7;
+  color: #557887;
 }
 .use-button {
-  background:
-    linear-gradient(
-      135deg,
-      #87afbc,
-      #739aa8
-    );
-  color:
-    #ffffff;
-  box-shadow:
-    0 4px 10px rgba(88, 120, 132, 0.14);
+  border: none;
+  background: #587b8c;
+  color: #ffffff;
 }
 /* =========================================
    スマホ
 ========================================= */
 @media (max-width: 430px) {
   header {
-    padding-top: 23px;
-    padding-bottom: 21px;
+    padding: 21px 14px 19px;
   }
   header h1 {
-    font-size: 23px;
+    font-size: 22px;
   }
-  header p {
-    font-size: 10px;
-  }
-  .container {
-    padding-top: 16px;
-    padding-left: 11px;
-    padding-right: 11px;
-  }
-  .kana-grid {
-    gap: 8px;
+  main {
+    padding: 18px 10px 30px;
   }
   .kana-row {
-    gap: 8px;
+    gap: 6px;
+    margin-bottom: 6px;
   }
-  .kana-card {
-    border-radius: 14px;
-  }
-  .kana-empty .kana {
+  .kana-empty {
     font-size: 23px;
   }
-  .plus {
-    font-size: 18px;
+  .kana-label {
+    font-size: 12px;
+    padding: 6px 2px;
   }
-  .progress-box {
-    border-radius: 17px;
-  }
-}
-/* =========================================
-   PC
-========================================= */
-@media (min-width: 700px) {
-  .container {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  .kana-grid {
-    gap: 12px;
-  }
-  .kana-row {
-    gap: 12px;
+  .delete-btn {
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    font-size: 14px;
   }
 }
 </style>
@@ -477,98 +327,79 @@ button {
 <body>
 <header>
   <h1>五十音あつめ</h1>
-  <p>写真を集めて、五十音を完成させよう</p>
+  <p>写真でつくる、わたしの五十音</p>
 </header>
-<div class="container">
+<main>
   <div class="progress-box">
-    <div class="progress-text">
-      <span
-        id="progressNumber"
-        class="progress-number"
-      >0</span>
-      / 46 文字 集めました
-    </div>
+    <div class="progress-number" id="progressNumber">0 / 46</div>
+    <div class="progress-text">文字 集めました</div>
   </div>
-  <div
-    id="kanaGrid"
-    class="kana-grid"
-  ></div>
+  <div id="kanaGrid"></div>
   <div class="button-area">
-    <button
-      class="main-button"
-      onclick="saveBoard()"
-    >
+    <button class="main-button" id="saveBoardButton">
       一覧を画像保存
     </button>
-    <button
-      class="sub-button"
-      onclick="clearAll()"
-    >
-      すべて削除
-    </button>
+<button class="sub-button" id="clearAllButton">
+  すべて削除
+</button>
   </div>
-</div>
+</main>
+<!-- =========================================
+     ファイル選択
+========================================= -->
+
 <input
-  type="file"
-  id="fileInput"
-  accept="image/*"
->
-<!-- =====================================
-     写真編集モーダル
-===================================== -->
-<div
-  id="cropModal"
-  class="modal"
->
+type=“file”
+id=“fileInput”
+accept=“image/*”
+style=“display:none;”
+
+<!-- =========================================
+     クロップモーダル
+========================================= -->
+<div class="modal" id="cropModal">
   <div class="modal-content">
-    <div class="modal-title">
-      写真を調整
-    </div>
-    <div
-      id="cropArea"
-      class="crop-area"
-    >
-      <img
-        id="cropImage"
-        alt=""
-      >
-    </div>
-    <div class="zoom-area">
-      <div class="zoom-label">
-        拡大・縮小
-      </div>
-      <input
-        type="range"
-        id="zoomSlider"
-        min="1"
-        max="3"
-        step="0.01"
-        value="1"
-      >
-    </div>
-    <div class="modal-buttons">
-      <button
-        class="cancel-button"
-        onclick="closeModal()"
-      >
-        キャンセル
-      </button>
-      <button
-        class="save-photo-button"
-        onclick="saveCurrentPhotoToPhotos()"
-      >
-        写真アプリに保存
-      </button>
-      <button
-        class="use-button"
-        onclick="usePhoto()"
-      >
-        この写真を使う
-      </button>
-    </div>
+<h2 class="modal-title">写真を調整</h2>
+<div class="crop-area" id="cropArea">
+  <img id="cropImage" alt="">
+</div>
+<div class="zoom-area">
+  <label for="zoomSlider">ズーム</label>
+  <input
+    type="range"
+    id="zoomSlider"
+    min="1"
+    max="3"
+    step="0.01"
+    value="1"
+  >
+</div>
+<div class="modal-buttons">
+  <button
+    class="cancel-button"
+    id="cancelCropButton"
+  >
+    キャンセル
+  </button>
+  <button
+    class="save-photo-button"
+    id="savePhotoButton"
+  >
+    写真アプリに保存
+  </button>
+  <button
+    class="use-button"
+    id="usePhotoButton"
+  >
+    この写真を使う
+  </button>
+</div>
   </div>
 </div>
 <script>
+/* =========================================
+   五十音
+========================================= */
 const kanaRows = [
   ["あ","い","う","え","お"],
   ["か","き","く","け","こ"],
@@ -579,288 +410,191 @@ const kanaRows = [
   ["ま","み","む","め","も"],
   ["や","","ゆ","","よ"],
   ["ら","り","る","れ","ろ"],
-  ["わ","を","ん","",""]
+  ["わ","","を","","ん"]
 ];
-const allKana = [
-  "あ","い","う","え","お",
-  "か","き","く","け","こ",
-  "さ","し","す","せ","そ",
-  "た","ち","つ","て","と",
-  "な","に","ぬ","ね","の",
-  "は","ひ","ふ","へ","ほ",
-  "ま","み","む","め","も",
-  "や","ゆ","よ",
-  "ら","り","る","れ","ろ",
-  "わ","を","ん"
-];
+const allKana = kanaRows.flat().filter(Boolean);
+/* =========================================
+   保存データ
+========================================= */
 let photos =
   JSON.parse(
-    localStorage.getItem(
-      "gojuonPhotos"
-    ) || "{}"
+    localStorage.getItem("gojuonPhotos") || "{}"
   );
-let currentKana = null;
+/* =========================================
+   DOM
+========================================= */
+const kanaGrid =
+  document.getElementById("kanaGrid");
+const progressNumber =
+  document.getElementById("progressNumber");
+const fileInput =
+  document.getElementById("fileInput");
+const cropModal =
+  document.getElementById("cropModal");
+const cropArea =
+  document.getElementById("cropArea");
+const cropImage =
+  document.getElementById("cropImage");
+const zoomSlider =
+  document.getElementById("zoomSlider");
+const usePhotoButton =
+  document.getElementById("usePhotoButton");
+const cancelCropButton =
+  document.getElementById("cancelCropButton");
+const savePhotoButton =
+  document.getElementById("savePhotoButton");
+const saveBoardButton =
+  document.getElementById("saveBoardButton");
+const clearAllButton =
+  document.getElementById("clearAllButton");
+/* =========================================
+   クロップ用変数
+========================================= */
+let selectedKana = null;
 let originalImage = null;
+let imageScale = 1;
 let imageX = 0;
 let imageY = 0;
-let baseScale = 1;
-let baseImageWidth = 0;
-let baseImageHeight = 0;
+let startX = 0;
+let startY = 0;
 let dragging = false;
-let dragStartX = 0;
-let dragStartY = 0;
-const fileInput =
-  document.getElementById(
-    "fileInput"
-  );
-const cropModal =
-  document.getElementById(
-    "cropModal"
-  );
-const cropArea =
-  document.getElementById(
-    "cropArea"
-  );
-const cropImage =
-  document.getElementById(
-    "cropImage"
-  );
-const zoomSlider =
-  document.getElementById(
-    "zoomSlider"
-  );
 /* =========================================
    写真選択
 ========================================= */
-fileInput.addEventListener(
-  "change",
-  function () {
-    const file =
-      this.files[0];
-    if (
-      !file ||
-      !currentKana
-    ) {
-      return;
-    }
-    const reader =
-      new FileReader();
-    reader.onload =
-      function (e) {
-        const dataURL =
-          e.target.result;
-        originalImage =
-          new Image();
-        originalImage.onload =
-          function () {
-            cropImage.src =
-              dataURL;
-            cropImage.style.display =
-              "block";
-            cropImage.style.visibility =
-              "visible";
-            cropImage.style.opacity =
-              "1";
-            zoomSlider.value = 1;
-            zoomSlider.dataset.oldZoom = 1;
-            cropModal.classList.add(
-              "show"
-            );
-            requestAnimationFrame(
-              () => {
-                setupCrop();
-              }
-            );
-          };
-        originalImage.src =
-          dataURL;
-      };
-    reader.readAsDataURL(
-      file
-    );
-    fileInput.value = "";
-  }
-);
+function selectKana(kana) {
+  selectedKana = kana;
+  fileInput.value = "";
+  fileInput.click();
+}
+fileInput.addEventListener("change", function () {
+  const file = this.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function (event) {
+    originalImage = new Image();
+    originalImage.onload = function () {
+      cropImage.src = event.target.result;
+      cropModal.classList.add("show");
+      requestAnimationFrame(() => {
+        setupCrop();
+      });
+    };
+    originalImage.src = event.target.result;
+  };
+  reader.readAsDataURL(file);
+});
 /* =========================================
    クロップ初期設定
 ========================================= */
 function setupCrop() {
-  if (!originalImage) {
-    return;
-  }
-  const areaWidth =
-    cropArea.clientWidth;
-  const areaHeight =
-    cropArea.clientHeight;
-  const imageWidth =
-    originalImage.naturalWidth;
-  const imageHeight =
-    originalImage.naturalHeight;
-  baseScale =
+  const areaWidth = cropArea.clientWidth;
+  const areaHeight = cropArea.clientHeight;
+  const imageWidth = originalImage.naturalWidth;
+  const imageHeight = originalImage.naturalHeight;
+  const baseScale =
     Math.max(
       areaWidth / imageWidth,
       areaHeight / imageHeight
     );
-  baseImageWidth =
-    imageWidth * baseScale;
-  baseImageHeight =
-    imageHeight * baseScale;
-  imageX =
-    (areaWidth -
-      baseImageWidth) / 2;
-  imageY =
-    (areaHeight -
-      baseImageHeight) / 2;
+  imageScale = baseScale;
   zoomSlider.value = 1;
-  zoomSlider.dataset.oldZoom = 1;
+  imageX =
+    (areaWidth - imageWidth * imageScale) / 2;
+  imageY =
+    (areaHeight - imageHeight * imageScale) / 2;
   updateCropImage();
 }
 /* =========================================
-   画像位置更新
+   クロップ画像更新
 ========================================= */
 function updateCropImage() {
-  const zoom =
-    Number(
-      zoomSlider.value
-    );
   const width =
-    baseImageWidth * zoom;
+    originalImage.naturalWidth * imageScale;
   const height =
-    baseImageHeight * zoom;
-  cropImage.style.width =
-    width + "px";
-  cropImage.style.height =
-    height + "px";
-  cropImage.style.left =
-    imageX + "px";
-  cropImage.style.top =
-    imageY + "px";
-  keepImageInside();
+    originalImage.naturalHeight * imageScale;
+  cropImage.style.width = width + "px";
+  cropImage.style.height = height + "px";
+  cropImage.style.left = imageX + "px";
+  cropImage.style.top = imageY + "px";
 }
 /* =========================================
-   画像が枠から出ないようにする
+   画像を枠内に維持
 ========================================= */
 function keepImageInside() {
-  const areaWidth =
-    cropArea.clientWidth;
-  const areaHeight =
-    cropArea.clientHeight;
-  const zoom =
-    Number(
-      zoomSlider.value
-    );
+  const areaWidth = cropArea.clientWidth;
+  const areaHeight = cropArea.clientHeight;
   const width =
-    baseImageWidth * zoom;
+    originalImage.naturalWidth * imageScale;
   const height =
-    baseImageHeight * zoom;
-  if (
-    width >= areaWidth
-  ) {
-    imageX =
-      Math.min(
-        0,
-        Math.max(
-          areaWidth - width,
-          imageX
-        )
-      );
+    originalImage.naturalHeight * imageScale;
+  if (width <= areaWidth) {
+    imageX = (areaWidth - width) / 2;
   } else {
-    imageX =
-      (areaWidth - width) / 2;
+    const minX = areaWidth - width;
+    if (imageX > 0) imageX = 0;
+    if (imageX < minX) imageX = minX;
   }
-  if (
-    height >= areaHeight
-  ) {
-    imageY =
-      Math.min(
-        0,
-        Math.max(
-          areaHeight - height,
-          imageY
-        )
-      );
+  if (height <= areaHeight) {
+    imageY = (areaHeight - height) / 2;
   } else {
-    imageY =
-      (areaHeight - height) / 2;
+    const minY = areaHeight - height;
+    if (imageY > 0) imageY = 0;
+    if (imageY < minY) imageY = minY;
   }
-  cropImage.style.left =
-    imageX + "px";
-  cropImage.style.top =
-    imageY + "px";
 }
 /* =========================================
    ズーム
 ========================================= */
-zoomSlider.addEventListener(
-  "input",
-  function () {
-    const oldZoom =
-      Number(
-        zoomSlider.dataset.oldZoom || 1
-      );
-    const newZoom =
-      Number(
-        zoomSlider.value
-      );
-    const areaWidth =
-      cropArea.clientWidth;
-    const areaHeight =
-      cropArea.clientHeight;
-    const centerX =
-      areaWidth / 2;
-    const centerY =
-      areaHeight / 2;
-    const oldWidth =
-      baseImageWidth * oldZoom;
-    const oldHeight =
-      baseImageHeight * oldZoom;
-    const imagePointX =
-      (centerX - imageX) /
-      oldWidth;
-    const imagePointY =
-      (centerY - imageY) /
-      oldHeight;
-    const newWidth =
-      baseImageWidth * newZoom;
-    const newHeight =
-      baseImageHeight * newZoom;
-    imageX =
-      centerX -
-      imagePointX * newWidth;
-    imageY =
-      centerY -
-      imagePointY * newHeight;
-    zoomSlider.dataset.oldZoom =
-      newZoom;
-    updateCropImage();
-  }
-);
+zoomSlider.addEventListener("input", function () {
+  if (!originalImage) return;
+  const newZoom =
+    Number(this.value);
+  const areaWidth =
+    cropArea.clientWidth;
+  const areaHeight =
+    cropArea.clientHeight;
+  const centerX =
+    areaWidth / 2;
+  const centerY =
+    areaHeight / 2;
+  const oldScale = imageScale;
+  const baseScale =
+    Math.max(
+      areaWidth / originalImage.naturalWidth,
+      areaHeight / originalImage.naturalHeight
+    );
+  imageScale =
+    baseScale * newZoom;
+  imageX =
+    centerX -
+    (centerX - imageX) *
+    (imageScale / oldScale);
+  imageY =
+    centerY -
+    (centerY - imageY) *
+    (imageScale / oldScale);
+  keepImageInside();
+  updateCropImage();
+});
 /* =========================================
    ドラッグ
 ========================================= */
 cropArea.addEventListener(
   "pointerdown",
-  function (e) {
+  function (event) {
     dragging = true;
-    cropArea.setPointerCapture(
-      e.pointerId
-    );
-    dragStartX =
-      e.clientX - imageX;
-    dragStartY =
-      e.clientY - imageY;
+    startX = event.clientX - imageX;
+    startY = event.clientY - imageY;
+    cropArea.setPointerCapture(event.pointerId);
   }
 );
 cropArea.addEventListener(
   "pointermove",
-  function (e) {
-    if (!dragging) {
-      return;
-    }
-    imageX =
-      e.clientX - dragStartX;
-    imageY =
-      e.clientY - dragStartY;
+  function (event) {
+    if (!dragging) return;
+    imageX = event.clientX - startX;
+    imageY = event.clientY - startY;
+    keepImageInside();
     updateCropImage();
   }
 );
@@ -877,95 +611,317 @@ cropArea.addEventListener(
   }
 );
 /* =========================================
-   クロップ画像作成
+   正方形画像を作成
 ========================================= */
 function createCroppedCanvas() {
+  const areaWidth =
+    cropArea.clientWidth;
+  const areaHeight =
+    cropArea.clientHeight;
   const canvas =
-    document.createElement(
-      "canvas"
-    );
+    document.createElement("canvas");
   canvas.width = 800;
   canvas.height = 800;
   const ctx =
     canvas.getContext("2d");
-  ctx.fillStyle =
-    "#ffffff";
-  ctx.fillRect(
+  const sourceX =
+    -imageX / imageScale;
+  const sourceY =
+    -imageY / imageScale;
+  const sourceSize =
+    areaWidth / imageScale;
+  ctx.drawImage(
+    originalImage,
+    sourceX,
+    sourceY,
+    sourceSize,
+    sourceSize,
     0,
     0,
     800,
     800
   );
-  const areaWidth =
-    cropArea.clientWidth;
-  const ratio =
-    800 / areaWidth;
-  const zoom =
-    Number(
-      zoomSlider.value
-    );
-  const drawWidth =
-    baseImageWidth *
-    zoom *
-    ratio;
-  const drawHeight =
-    baseImageHeight *
-    zoom *
-    ratio;
-  const drawX =
-    imageX * ratio;
-  const drawY =
-    imageY * ratio;
-  ctx.drawImage(
-    originalImage,
-    drawX,
-    drawY,
-    drawWidth,
-    drawHeight
-  );
   return canvas;
 }
 /* =========================================
-   写真を使う
+   写真を使用
 ========================================= */
-function usePhoto() {
-  if (
-    !currentKana ||
-    !originalImage
-  ) {
-    return;
-  }
-  const canvas =
-    createCroppedCanvas();
-  photos[currentKana] =
-    canvas.toDataURL(
-      "image/jpeg",
-      0.88
+usePhotoButton.addEventListener(
+  "click",
+  function () {
+    if (!selectedKana || !originalImage) return;
+    const canvas =
+      createCroppedCanvas();
+    const dataURL =
+      canvas.toDataURL(
+        "image/jpeg",
+        0.9
+      );
+    photos[selectedKana] = dataURL;
+    localStorage.setItem(
+      "gojuonPhotos",
+      JSON.stringify(photos)
     );
-  savePhotos();
-  closeModal();
-  renderTable();
-}
+    closeModal();
+    renderTable();
+  }
+);
 /* =========================================
    写真アプリに保存
 ========================================= */
-async function saveCurrentPhotoToPhotos() {
-  if (!originalImage) {
-    return;
+savePhotoButton.addEventListener(
+  "click",
+  async function () {
+    if (!originalImage) return;
+    const canvas =
+      createCroppedCanvas();
+    canvas.toBlob(
+      async function (blob) {
+        if (!blob) return;
+        const file =
+          new File(
+            [blob],
+            "gojuon-photo.jpg",
+            {
+              type: "image/jpeg"
+            }
+          );
+        try {
+          if (
+            navigator.share &&
+            navigator.canShare &&
+            navigator.canShare({
+              files: [file]
+            })
+          ) {
+            await navigator.share({
+              files: [file],
+              title: "五十音あつめ"
+            });
+          } else {
+            const url =
+              URL.createObjectURL(blob);
+            const newWindow =
+              window.open(url, "_blank");
+            if (!newWindow) {
+              alert(
+                "画像を開けませんでした。"
+              );
+            }
+          }
+        } catch (error) {
+          if (error.name !== "AbortError") {
+            console.error(error);
+          }
+        }
+      },
+      "image/jpeg"
+    );
   }
+);
+/* =========================================
+   モーダルを閉じる
+========================================= */
+cancelCropButton.addEventListener(
+  "click",
+  closeModal
+);
+function closeModal() {
+  cropModal.classList.remove("show");
+  selectedKana = null;
+  originalImage = null;
+  cropImage.src = "";
+}
+/* =========================================
+   一覧を画像保存
+========================================= */
+saveBoardButton.addEventListener(
+  "click",
+  saveBoard
+);
+async function saveBoard() {
   const canvas =
-    createCroppedCanvas();
+    document.createElement("canvas");
+  const ctx =
+    canvas.getContext("2d");
+  const width = 1400;
+  const padding = 60;
+  const cellSize = 220;
+  const gap = 20;
+  const rows = kanaRows.length;
+  const gridHeight =
+    rows * cellSize +
+    (rows - 1) * gap;
+  const height =
+    padding +
+    100 +
+    gridHeight +
+    padding;
+  canvas.width = width;
+  canvas.height = height;
+  /* 背景 */
+  ctx.fillStyle = "#f7f9fa";
+  ctx.fillRect(
+    0,
+    0,
+    width,
+    height
+  );
+  /* タイトル */
+  ctx.fillStyle = "#587b8c";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.font =
+    "600 38px 'Hiragino Maru Gothic ProN', sans-serif";
+  ctx.fillText(
+    "五十音あつめ",
+    width / 2,
+    55
+  );
+  /* グリッド */
+  const gridWidth =
+    5 * cellSize +
+    4 * gap;
+  const startX =
+    (width - gridWidth) / 2;
+  const startY =
+    120;
+  kanaRows.forEach(
+    (row, rowIndex) => {
+      row.forEach(
+        (kana, colIndex) => {
+          if (!kana) return;
+          const x =
+            startX +
+            colIndex *
+              (cellSize + gap);
+          const y =
+            startY +
+            rowIndex *
+              (cellSize + gap);
+          /* 枠 */
+          ctx.fillStyle =
+            "#ffffff";
+          ctx.strokeStyle =
+            "#d7e3e7";
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.roundRect(
+            x,
+            y,
+            cellSize,
+            cellSize,
+            14
+          );
+          ctx.fill();
+          ctx.stroke();
+          /* 写真 */
+          if (photos[kana]) {
+            const img =
+              new Image();
+            img.src =
+              photos[kana];
+            img.onload = function () {
+              ctx.save();
+              ctx.beginPath();
+              ctx.roundRect(
+                x,
+                y,
+                cellSize,
+                cellSize,
+                14
+              );
+              ctx.clip();
+              ctx.drawImage(
+                img,
+                x,
+                y,
+                cellSize,
+                cellSize
+              );
+              ctx.restore();
+              saveBoardImageIfReady(
+                canvas
+              );
+            };
+          } else {
+            drawEmptyKana(
+              ctx,
+              kana,
+              x,
+              y,
+              cellSize
+            );
+          }
+        }
+      );
+    }
+  );
+  /*
+    写真がない場合は、
+    非同期画像読み込みがないため
+    そのまま保存
+  */
+  const hasPhotos =
+    Object.keys(photos).length > 0;
+  if (!hasPhotos) {
+    saveBoardCanvas(canvas);
+  } else {
+    /*
+      少し待ってから保存。
+      写真枚数が多い場合にも対応。
+    */
+    setTimeout(
+      () => saveBoardCanvas(canvas),
+      500
+    );
+  }
+}
+/* =========================================
+   一覧画像：空の文字
+========================================= */
+function drawEmptyKana(
+  ctx,
+  kana,
+  x,
+  y,
+  size
+) {
+  ctx.fillStyle =
+    "#7895a2";
+  ctx.font =
+    "500 54px 'Hiragino Maru Gothic ProN', sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(
+    kana,
+    x + size / 2,
+    y + size / 2
+  );
+}
+/* =========================================
+   一覧画像を保存
+========================================= */
+let boardSaveDone = false;
+function saveBoardImageIfReady(canvas) {
+  /*
+    canvasの描画後に保存処理を
+    呼び出すための補助関数
+  */
+}
+/* =========================================
+   canvas保存
+========================================= */
+async function saveBoardCanvas(canvas) {
   canvas.toBlob(
     async function (blob) {
-      if (!blob) {
-        return;
-      }
+      if (!blob) return;
       const file =
         new File(
           [blob],
-          "五十音あつめ.png",
+          "五十音あつめ.jpg",
           {
-            type: "image/png"
+            type: "image/jpeg"
           }
         );
       try {
@@ -982,175 +938,116 @@ async function saveCurrentPhotoToPhotos() {
           });
         } else {
           const url =
-            URL.createObjectURL(
-              blob
-            );
-          window.open(
-            url,
-            "_blank"
-          );
-          alert(
-            "画像を長押しして「写真に保存」を選んでください。"
-          );
+            URL.createObjectURL(blob);
+          const a =
+            document.createElement("a");
+          a.href = url;
+          a.download =
+            "五十音あつめ.jpg";
+          a.click();
+          URL.revokeObjectURL(url);
         }
       } catch (error) {
-        console.log(error);
+        if (error.name !== "AbortError") {
+          console.error(error);
+        }
       }
     },
-    "image/png"
+    "image/jpeg",
+    0.92
   );
 }
 /* =========================================
-   モーダルを閉じる
-========================================= */
-function closeModal() {
-  cropModal.classList.remove(
-    "show"
-  );
-  currentKana = null;
-  originalImage = null;
-  cropImage.src = "";
-  cropImage.style.display =
-    "none";
-}
-/* =========================================
-   保存
-========================================= */
-function savePhotos() {
-  try {
-    localStorage.setItem(
-      "gojuonPhotos",
-      JSON.stringify(photos)
-    );
-  } catch (error) {
-    alert(
-      "写真の保存容量がいっぱいになりました。\n一部の写真を削除してください。"
-    );
-  }
-}
-/* =========================================
-   五十音表
+   一覧表示
 ========================================= */
 function renderTable() {
-  const grid =
-    document.getElementById(
-      "kanaGrid"
-    );
-  grid.innerHTML = "";
+  kanaGrid.innerHTML = "";
   kanaRows.forEach(
     row => {
       const rowElement =
-        document.createElement(
-          "div"
-        );
+        document.createElement("div");
       rowElement.className =
         "kana-row";
       row.forEach(
         kana => {
-          const card =
-            document.createElement(
-              "div"
-            );
-          card.className =
-            "kana-card";
           if (!kana) {
-            card.style.visibility =
-              "hidden";
-            rowElement.appendChild(
-              card
-            );
+            const blank =
+              document.createElement("div");
+            rowElement.appendChild(blank);
             return;
           }
+          const item =
+            document.createElement("div");
+          item.className =
+            "kana-item";
+          /* =================================
+             写真あり
+          ================================= */
           if (photos[kana]) {
+            item.classList.add(
+              "has-photo"
+            );
             const img =
-              document.createElement(
-                "img"
-              );
+              document.createElement("img");
             img.src =
               photos[kana];
-            card.appendChild(
-              img
+            img.alt = "";
+            item.appendChild(img);
+            /*
+              写真がある場合は
+              文字・ラベルを作らない
+            */
+            const deleteButton =
+              document.createElement("button");
+            deleteButton.className =
+              "delete-btn";
+            deleteButton.textContent =
+              "×";
+            deleteButton.addEventListener(
+              "click",
+              function (event) {
+                event.stopPropagation();
+                delete photos[kana];
+                savePhotos();
+                renderTable();
+              }
             );
+            item.appendChild(
+              deleteButton
+            );
+          }
+          /* =================================
+             写真なし
+          ================================= */
+          else {
+            item.classList.add(
+              "empty"
+            );
+            const empty =
+              document.createElement("div");
+            empty.className =
+              "kana-empty";
+            empty.textContent =
+              "＋";
+            item.appendChild(empty);
             const label =
-              document.createElement(
-                "div"
-              );
+              document.createElement("div");
             label.className =
               "kana-label";
             label.textContent =
               kana;
-            card.appendChild(
-              label
-            );
-            const deleteBtn =
-              document.createElement(
-                "button"
-              );
-            deleteBtn.className =
-              "delete-btn";
-            deleteBtn.textContent =
-              "×";
-            deleteBtn.onclick =
-              function (e) {
-                e.stopPropagation();
-                if (
-                  confirm(
-                    `「${kana}」の写真を削除しますか？`
-                  )
-                ) {
-                  delete photos[kana];
-                  savePhotos();
-                  renderTable();
-                }
-              };
-            card.appendChild(
-              deleteBtn
-            );
-          } else {
-            const empty =
-              document.createElement(
-                "div"
-              );
-            empty.className =
-              "kana-empty";
-            const kanaText =
-              document.createElement(
-                "div"
-              );
-            kanaText.className =
-              "kana";
-            kanaText.textContent =
-              kana;
-            const plus =
-              document.createElement(
-                "div"
-              );
-            plus.className =
-              "plus";
-            plus.textContent =
-              "+";
-            empty.appendChild(
-              kanaText
-            );
-            empty.appendChild(
-              plus
-            );
-            card.appendChild(
-              empty
-            );
+            item.appendChild(label);
           }
-          card.onclick =
+          item.addEventListener(
+            "click",
             function () {
-              currentKana =
-                kana;
-              fileInput.click();
-            };
-          rowElement.appendChild(
-            card
+              selectKana(kana);
+            }
           );
+          rowElement.appendChild(item);
         }
       );
-      grid.appendChild(
+      kanaGrid.appendChild(
         rowElement
       );
     }
@@ -1158,260 +1055,43 @@ function renderTable() {
   updateProgress();
 }
 /* =========================================
-   進捗
+   進捗更新
 ========================================= */
 function updateProgress() {
   const count =
     allKana.filter(
       kana => photos[kana]
     ).length;
-  document.getElementById(
-    "progressNumber"
-  ).textContent =
-    count;
+  progressNumber.textContent =
+    `${count} / 46`;
 }
 /* =========================================
-   一覧画像保存
+   保存
 ========================================= */
-async function saveBoard() {
-  const canvas =
-    document.createElement(
-      "canvas"
-    );
-  const canvasWidth = 1200;
-  const cardWidth = 210;
-  const cardHeight = 210;
-  const gap = 20;
-  const rows =
-    kanaRows.length;
-  canvas.width =
-    canvasWidth;
-  canvas.height =
-    150 +
-    rows *
-      (cardHeight + gap) +
-    60;
-  const ctx =
-    canvas.getContext("2d");
-  ctx.fillStyle =
-    "#edf7fa";
-  ctx.fillRect(
-    0,
-    0,
-    canvas.width,
-    canvas.height
-  );
-  ctx.fillStyle =
-    "#526d79";
-  ctx.textAlign =
-    "center";
-  ctx.font =
-    "bold 38px 'Hiragino Maru Gothic ProN', sans-serif";
-  ctx.fillText(
-    "五十音あつめ",
-    canvas.width / 2,
-    70
-  );
-  const startX = 55;
-  const startY = 120;
-  for (
-    let r = 0;
-    r < kanaRows.length;
-    r++
-  ) {
-    for (
-      let c = 0;
-      c < 5;
-      c++
-    ) {
-      const kana =
-        kanaRows[r][c];
-      if (!kana) {
-        continue;
-      }
-      const x =
-        startX +
-        c *
-          (cardWidth + gap);
-      const y =
-        startY +
-        r *
-          (cardHeight + gap);
-      if (photos[kana]) {
-        const img =
-          new Image();
-        img.src =
-          photos[kana];
-        await new Promise(
-          resolve => {
-            img.onload =
-              resolve;
-            img.onerror =
-              resolve;
-          }
-        );
-        ctx.drawImage(
-          img,
-          x,
-          y,
-          cardWidth,
-          cardHeight
-        );
-      } else {
-        drawEmptyKana(
-          ctx,
-          kana,
-          x,
-          y,
-          cardWidth,
-          cardHeight
-        );
-      }
-      drawKanaLabel(
-        ctx,
-        kana,
-        x,
-        y,
-        cardWidth,
-        cardHeight
-      );
-    }
-  }
-  canvas.toBlob(
-    async function (blob) {
-      if (!blob) {
-        return;
-      }
-      const file =
-        new File(
-          [blob],
-          "五十音あつめ.png",
-          {
-            type: "image/png"
-          }
-        );
-      try {
-        if (
-          navigator.share &&
-          navigator.canShare &&
-          navigator.canShare({
-            files: [file]
-          })
-        ) {
-          await navigator.share({
-            files: [file],
-            title: "五十音あつめ"
-          });
-        } else {
-          const url =
-            URL.createObjectURL(
-              blob
-            );
-          window.open(
-            url,
-            "_blank"
-          );
-          alert(
-            "画像を長押しして「写真に保存」を選んでください。"
-          );
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    "image/png"
-  );
-}
-/* =========================================
-   空のマス
-========================================= */
-function drawEmptyKana(
-  ctx,
-  kana,
-  x,
-  y,
-  width,
-  height
-) {
-  ctx.fillStyle =
-    "#ffffff";
-  ctx.fillRect(
-    x,
-    y,
-    width,
-    height
-  );
-  ctx.fillStyle =
-    "#8ca8b2";
-  ctx.textAlign =
-    "center";
-  ctx.textBaseline =
-    "middle";
-  ctx.font =
-    "bold 54px 'Hiragino Maru Gothic ProN', sans-serif";
-  ctx.fillText(
-    kana,
-    x + width / 2,
-    y + height / 2 - 13
-  );
-  ctx.font =
-    "38px sans-serif";
-  ctx.fillStyle =
-    "#b1ccd5";
-  ctx.fillText(
-    "+",
-    x + width / 2,
-    y + height / 2 + 50
-  );
-}
-/* =========================================
-   文字ラベル
-========================================= */
-function drawKanaLabel(
-  ctx,
-  kana,
-  x,
-  y,
-  width,
-  height
-) {
-  ctx.fillStyle =
-    "rgba(255,255,255,0.91)";
-  ctx.fillRect(
-    x + 10,
-    y + height - 46,
-    38,
-    35
-  );
-  ctx.fillStyle =
-    "#526d79";
-  ctx.textAlign =
-    "center";
-  ctx.textBaseline =
-    "middle";
-  ctx.font =
-    "bold 20px 'Hiragino Maru Gothic ProN', sans-serif";
-  ctx.fillText(
-    kana,
-    x + 29,
-    y + height - 28
+function savePhotos() {
+  localStorage.setItem(
+    "gojuonPhotos",
+    JSON.stringify(photos)
   );
 }
 /* =========================================
    すべて削除
 ========================================= */
-function clearAll() {
-  if (
-    !confirm(
-      "集めた写真をすべて削除しますか？"
-    )
-  ) {
-    return;
+clearAllButton.addEventListener(
+  "click",
+  function () {
+    const confirmed =
+      confirm(
+        "集めた写真をすべて削除しますか？"
+      );
+    if (!confirmed) return;
+    photos = {};
+    localStorage.removeItem(
+      "gojuonPhotos"
+    );
+    renderTable();
   }
-  photos = {};
-  savePhotos();
-  renderTable();
-}
+);
 /* =========================================
    初期表示
 ========================================= */
