@@ -740,21 +740,32 @@ fileInput.onchange =
 
 
         originalImage.onload =
+
   function() {
 
     selectedKana.textContent =
+
       currentKana;
+
+    /* トリミング画面に画像を表示 */
+
+    cropImage.src =
+
+      originalImage.src;
 
     modal.classList.add("show");
 
     requestAnimationFrame(
+
       function() {
+
         setupCrop();
+
       }
+
     );
 
   };
-
 
         originalImage.src =
           event.target.result;
