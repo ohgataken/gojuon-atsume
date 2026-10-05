@@ -19,11 +19,11 @@ body {
   background: #f7f6f2;
   color: #292824;
   font-family:
+    "Hiragino Sans",
+    "Yu Gothic",
+    "Noto Sans JP",
     -apple-system,
     BlinkMacSystemFont,
-    "Helvetica Neue",
-    "Hiragino Kaku Gothic ProN",
-    "Yu Gothic",
     sans-serif;
 }
 button {
@@ -40,9 +40,10 @@ header {
 h1 {
   margin: 0;
   font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
+    "Hiragino Sans",
+    "Yu Gothic",
+    "Noto Sans JP",
+    sans-serif;
   font-size: 34px;
   font-weight: 500;
   letter-spacing: .08em;
@@ -177,9 +178,10 @@ main {
     rgba(255,254,250,.92);
   border-radius: 50%;
   font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
+    "Hiragino Sans",
+    "Yu Gothic",
+    "Noto Sans JP",
+    sans-serif;
   font-size: 18px;
 }
 /* =========================================
@@ -266,9 +268,10 @@ main {
   margin:
     0 0 15px;
   font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
+    "Hiragino Sans",
+    "Yu Gothic",
+    "Noto Sans JP",
+    sans-serif;
   font-size:
     22px;
   font-weight:
@@ -403,9 +406,6 @@ main {
 </style>
 </head>
 <body>
-<!-- =========================================
-     ヘッダー
-========================================= -->
 <header>
   <h1>
     五十音あつめ
@@ -426,9 +426,6 @@ main {
     </div>
   </div>
 </header>
-<!-- =========================================
-     メイン
-========================================= -->
 <main>
   <div class="buttons">
     <button
@@ -450,18 +447,12 @@ main {
     好きな写真を見つけて、五十音を集めよう
   </div>
 </main>
-<!-- =========================================
-     写真選択
-========================================= -->
 <input
   type="file"
   id="fileInput"
   accept="image/*"
   hidden
 >
-<!-- =========================================
-     トリミング画面
-========================================= -->
 <div
   class="modal"
   id="modal"
@@ -527,37 +518,236 @@ const rows = [
   ["わ",null,"を",null,"ん"]
 ];
 /* =========================================
-   保存データ
+   IndexedDB
+   写真をlocalStorageより大容量で保存
 ========================================= */
-let photos =
-  JSON.parse(
-    localStorage.getItem(
-      "gojuonPhotos"
-    ) || "{}"
+const DB_NAME =
+  "GojuonAtsumeDB";
+const DB_VERSION =
+  1;
+const STORE_NAME =
+  "photos";
+let db = null;
+function openDB() {
+  return new Promise(
+    function(resolve, reject) {
+      const request =
+        indexedDB.open(
+          DB_NAME,
+          DB_VERSION
+        );
+      request.onupgradeneeded =
+        function(event) {
+          const database =
+            event.target.result;
+          if (
+            !database.objectStoreNames.contains(
+              STORE_NAME
+            )
+          ) {
+            database.createObjectStore(
+              STORE_NAME
+            );
+          }
+        };
+      request.onsuccess =
+        function(event) {
+          db =
+            event.target.result;
+          resolve(db);
+        };
+      request.onerror =
+        function() {
+          reject(
+            request.error
+          );
+        };
+    }
   );
+}
+/* =========================================
+   IndexedDBから全写真取得
+========================================= */
+function getAllPhotos() {
+  return new Promise(
+    function(resolve, reject) {
+      const transaction =
+        db.transaction(
+          STORE_NAME,
+          "readonly"
+        );
+      const store =
+        transaction.objectStore(
+          STORE_NAME
+        );
+      const request =
+        store.getAll();
+      const keysRequest =
+        store.getAllKeys();
+      let values;
+      let keys;
+      request.onsuccess =
+        function() {
+          values =
+            request.result;
+          if (keys !== undefined) {
+            const result = {};
+            keys.forEach(
+              function(key, index) {
+                result[key] =
+                  values[index];
+              }
+            );
+            resolve(result);
+          }
+        };
+      keysRequest.onsuccess =
+        function() {
+          keys =
+            keysRequest.result;
+          if (values !== undefined) {
+            const result = {};
+            keys.forEach(
+              function(key, index) {
+                result[key] =
+                  values[index];
+              }
+            );
+            resolve(result);
+          }
+        };
+      request.onerror =
+        function() {
+          reject(
+            request.error
+          );
+        };
+      keysRequest.onerror =
+        function() {
+          reject(
+            keysRequest.error
+          );
+        };
+    }
+  );
+}
+/* =========================================
+   IndexedDBへ写真を保存
+========================================= */
+function savePhotoToDB(
+  kana,
+  data
+) {
+  return new Promise(
+    function(resolve, reject) {
+      const transaction =
+        db.transaction(
+          STORE_NAME,
+          "readwrite"
+        );
+      const store =
+        transaction.objectStore(
+          STORE_NAME
+        );
+      const request =
+        store.put(
+          data,
+          kana
+        );
+      request.onsuccess =
+        function() {
+          resolve();
+        };
+      request.onerror =
+        function() {
+          reject(
+            request.error
+          );
+        };
+    }
+  );
+}
+/* =========================================
+   IndexedDBから写真を削除
+========================================= */
+function deletePhotoFromDB(
+  kana
+) {
+  return new Promise(
+    function(resolve, reject) {
+      const transaction =
+        db.transaction(
+          STORE_NAME,
+          "readwrite"
+        );
+      const store =
+        transaction.objectStore(
+          STORE_NAME
+        );
+      const request =
+        store.delete(
+          kana
+        );
+      request.onsuccess =
+        function() {
+          resolve();
+        };
+      request.onerror =
+        function() {
+          reject(
+            request.error
+          );
+        };
+    }
+  );
+}
+/* =========================================
+   全削除
+========================================= */
+function clearDB() {
+  return new Promise(
+    function(resolve, reject) {
+      const transaction =
+        db.transaction(
+          STORE_NAME,
+          "readwrite"
+        );
+      const store =
+        transaction.objectStore(
+          STORE_NAME
+        );
+      const request =
+        store.clear();
+      request.onsuccess =
+        function() {
+          resolve();
+        };
+      request.onerror =
+        function() {
+          reject(
+            request.error
+          );
+        };
+    }
+  );
+}
+/* =========================================
+   写真データ
+========================================= */
+let photos = {};
 /* =========================================
    トリミング用変数
 ========================================= */
-let currentKana =
-  null;
-let originalImage =
-  null;
-let imageX =
-  0;
-let imageY =
-  0;
-let baseScale =
-  1;
-let baseImageWidth =
-  0;
-let baseImageHeight =
-  0;
-let dragging =
-  false;
-let dragStartX =
-  0;
-let dragStartY =
-  0;
+let currentKana = null;
+let originalImage = null;
+let imageX = 0;
+let imageY = 0;
+let baseScale = 1;
+let baseImageWidth = 0;
+let baseImageHeight = 0;
+let dragging = false;
+let dragStartX = 0;
+let dragStartY = 0;
 /* =========================================
    HTML要素
 ========================================= */
@@ -602,7 +792,6 @@ function renderTable() {
             document.createElement(
               "div"
             );
-          /* 空白 */
           if (!kana) {
             card.className =
               "card empty-position";
@@ -613,19 +802,10 @@ function renderTable() {
           }
           card.className =
             "card";
-          /* 五十音ラベル */
-          const label =
-            document.createElement(
-              "div"
-            );
-          label.className =
-            "kana-label";
-          label.textContent =
-            kana;
-          card.appendChild(
-            label
-          );
-          /* 写真がある場合 */
+          /*
+            写真がある場合
+            → 写真だけ表示
+          */
           if (photos[kana]) {
             const img =
               document.createElement(
@@ -638,7 +818,6 @@ function renderTable() {
             card.appendChild(
               img
             );
-            /* 削除 */
             const deleteButton =
               document.createElement(
                 "button"
@@ -648,18 +827,41 @@ function renderTable() {
             deleteButton.textContent =
               "×";
             deleteButton.onclick =
-              function(event) {
+              async function(event) {
                 event.stopPropagation();
                 delete photos[kana];
-                savePhotos();
+                try {
+                  await deletePhotoFromDB(
+                    kana
+                  );
+                }
+                catch (error) {
+                  console.error(
+                    error
+                  );
+                }
                 renderTable();
               };
             card.appendChild(
               deleteButton
             );
           }
-          /* 写真がない場合 */
+          /*
+            写真がない場合
+            → 五十音ラベル＋＋
+          */
           else {
+            const label =
+              document.createElement(
+                "div"
+              );
+            label.className =
+              "kana-label";
+            label.textContent =
+              kana;
+            card.appendChild(
+              label
+            );
             const plus =
               document.createElement(
                 "div"
@@ -672,7 +874,6 @@ function renderTable() {
               plus
             );
           }
-          /* タップ */
           card.onclick =
             function() {
               choosePhoto(
@@ -735,17 +936,10 @@ fileInput.onchange =
       function(event) {
         const dataURL =
           event.target.result;
-        /*
-          元画像
-        */
         originalImage =
           new Image();
         originalImage.onload =
           function() {
-            /*
-              トリミング画面に
-              直接画像をセット
-            */
             cropImage.src =
               dataURL;
             cropImage.style.display =
@@ -756,23 +950,13 @@ fileInput.onchange =
               "1";
             selectedKana.textContent =
               currentKana;
-            /*
-              ズーム倍率をリセット
-            */
             zoomSlider.value =
               "1";
             zoomSlider.dataset.oldZoom =
               "1";
-            /*
-              モーダル表示
-            */
             modal.classList.add(
               "show"
             );
-            /*
-              モーダルのサイズ確定後に
-              写真を中央配置
-            */
             requestAnimationFrame(
               function() {
                 setupCrop();
@@ -827,9 +1011,6 @@ function setupCrop() {
     );
     return;
   }
-  /*
-    枠を完全に覆う倍率
-  */
   baseScale =
     Math.max(
       areaWidth / imageWidth,
@@ -841,9 +1022,6 @@ function setupCrop() {
   baseImageHeight =
     imageHeight *
     baseScale;
-  /*
-    中央配置
-  */
   imageX =
     (
       areaWidth -
@@ -905,9 +1083,6 @@ function keepImageInside() {
   const height =
     baseImageHeight *
     zoom;
-  /*
-    横
-  */
   const minX =
     Math.min(
       0,
@@ -918,9 +1093,6 @@ function keepImageInside() {
       0,
       areaWidth - width
     );
-  /*
-    縦
-  */
   const minY =
     Math.min(
       0,
@@ -970,9 +1142,6 @@ zoomSlider.oninput =
       areaWidth / 2;
     const centerY =
       areaHeight / 2;
-    /*
-      中央位置を維持
-    */
     const imagePointX =
       (
         centerX -
@@ -1062,9 +1231,6 @@ function createCroppedCanvas() {
     canvas.getContext(
       "2d"
     );
-  /*
-    背景
-  */
   ctx.fillStyle =
     "#ffffff";
   ctx.fillRect(
@@ -1073,9 +1239,6 @@ function createCroppedCanvas() {
     size,
     size
   );
-  /*
-    トリミング画面→800px
-  */
   const ratio =
     size /
     cropArea.clientWidth;
@@ -1097,9 +1260,6 @@ function createCroppedCanvas() {
   const drawY =
     imageY *
     ratio;
-  /*
-    写真を描画
-  */
   ctx.drawImage(
     originalImage,
     drawX,
@@ -1112,7 +1272,7 @@ function createCroppedCanvas() {
 /* =========================================
    五十音表に写真を入れる
 ========================================= */
-function usePhoto() {
+async function usePhoto() {
   const canvas =
     createCroppedCanvas();
   if (!canvas) {
@@ -1121,14 +1281,29 @@ function usePhoto() {
     );
     return;
   }
-  photos[currentKana] =
+  const dataURL =
     canvas.toDataURL(
       "image/jpeg",
       0.88
     );
-  savePhotos();
-  closeModal();
-  renderTable();
+  try {
+    await savePhotoToDB(
+      currentKana,
+      dataURL
+    );
+    photos[currentKana] =
+      dataURL;
+    closeModal();
+    renderTable();
+  }
+  catch (error) {
+    console.error(
+      error
+    );
+    alert(
+      "写真を保存できませんでした。"
+    );
+  }
 }
 /* =========================================
    現在の写真をiPhoneへ保存
@@ -1161,9 +1336,6 @@ async function saveCurrentPhotoToPhotos() {
               "image/png"
           }
         );
-      /*
-        iPhoneの共有機能が使える場合
-      */
       if (
         navigator.share &&
         navigator.canShare &&
@@ -1181,10 +1353,6 @@ async function saveCurrentPhotoToPhotos() {
           });
         }
         catch (error) {
-          /*
-            共有画面を閉じただけなら
-            エラー表示しない
-          */
           if (
             error.name !==
             "AbortError"
@@ -1196,9 +1364,6 @@ async function saveCurrentPhotoToPhotos() {
         }
         return;
       }
-      /*
-        共有機能が使えない場合
-      */
       const url =
         URL.createObjectURL(
           blob
@@ -1237,27 +1402,9 @@ function closeModal() {
     null;
 }
 /* =========================================
-   アプリ内保存
-========================================= */
-function savePhotos() {
-  try {
-    localStorage.setItem(
-      "gojuonPhotos",
-      JSON.stringify(
-        photos
-      )
-    );
-  }
-  catch (error) {
-    alert(
-      "保存容量がいっぱいになりました。\n不要な写真を削除してみてください。"
-    );
-  }
-}
-/* =========================================
    全削除
 ========================================= */
-function clearAll() {
+async function clearAll() {
   const ok =
     confirm(
       "集めた写真をすべて削除しますか？"
@@ -1266,7 +1413,14 @@ function clearAll() {
     return;
   }
   photos = {};
-  savePhotos();
+  try {
+    await clearDB();
+  }
+  catch (error) {
+    console.error(
+      error
+    );
+  }
   renderTable();
 }
 /* =========================================
@@ -1306,9 +1460,6 @@ async function saveBoard() {
     canvas.getContext(
       "2d"
     );
-  /*
-    背景
-  */
   ctx.fillStyle =
     "#f7f6f2";
   ctx.fillRect(
@@ -1317,21 +1468,15 @@ async function saveBoard() {
     width,
     height
   );
-  /*
-    タイトル
-  */
   ctx.fillStyle =
     "#292824";
   ctx.font =
-    "500 46px Georgia";
+    "500 46px sans-serif";
   ctx.fillText(
     "五十音あつめ",
     margin,
     70
   );
-  /*
-    カウント
-  */
   ctx.fillStyle =
     "#88847c";
   ctx.font =
@@ -1344,9 +1489,6 @@ async function saveBoard() {
     margin,
     108
   );
-  /*
-    写真読み込み
-  */
   const imagePromises =
     [];
   rows.forEach(
@@ -1364,9 +1506,6 @@ async function saveBoard() {
             150 +
             rowIndex *
             rowHeight;
-          /*
-            マス
-          */
           ctx.fillStyle =
             "#fffefa";
           ctx.fillRect(
@@ -1385,6 +1524,7 @@ async function saveBoard() {
           );
           /*
             写真あり
+            → 写真だけ
           */
           if (photos[kana]) {
             imagePromises.push(
@@ -1400,12 +1540,6 @@ async function saveBoard() {
                         y,
                         cell,
                         cell
-                      );
-                      drawKanaLabel(
-                        ctx,
-                        kana,
-                        x,
-                        y
                       );
                       resolve();
                     };
@@ -1442,9 +1576,6 @@ async function saveBoard() {
   await Promise.all(
     imagePromises
   );
-  /*
-    PNG化
-  */
   canvas.toBlob(
     async function(blob) {
       if (!blob) {
@@ -1462,9 +1593,6 @@ async function saveBoard() {
               "image/png"
           }
         );
-      /*
-        iPhone共有シート
-      */
       if (
         navigator.share &&
         navigator.canShare &&
@@ -1491,9 +1619,6 @@ async function saveBoard() {
         }
         return;
       }
-      /*
-        非対応ブラウザ用
-      */
       const url =
         URL.createObjectURL(
           blob
@@ -1518,44 +1643,6 @@ async function saveBoard() {
   );
 }
 /* =========================================
-   一覧画像の五十音ラベル
-========================================= */
-function drawKanaLabel(
-  ctx,
-  kana,
-  x,
-  y
-) {
-  ctx.fillStyle =
-    "rgba(255,254,250,.94)";
-  ctx.beginPath();
-  ctx.arc(
-    x + 29,
-    y + 29,
-    21,
-    0,
-    Math.PI * 2
-  );
-  ctx.fill();
-  ctx.fillStyle =
-    "#292824";
-  ctx.font =
-    "22px Georgia";
-  ctx.textAlign =
-    "center";
-  ctx.textBaseline =
-    "middle";
-  ctx.fillText(
-    kana,
-    x + 29,
-    y + 29
-  );
-  ctx.textAlign =
-    "start";
-  ctx.textBaseline =
-    "alphabetic";
-}
-/* =========================================
    空のマス
 ========================================= */
 function drawEmptyKana(
@@ -1568,7 +1655,7 @@ function drawEmptyKana(
   ctx.fillStyle =
     "#aaa69d";
   ctx.font =
-    "28px Georgia";
+    "28px sans-serif";
   ctx.textAlign =
     "center";
   ctx.textBaseline =
@@ -1586,7 +1673,60 @@ function drawEmptyKana(
 /* =========================================
    起動
 ========================================= */
-renderTable();
+async function initialize() {
+  try {
+    await openDB();
+    /*
+      旧localStorageの写真を
+      IndexedDBへ移行
+    */
+    const oldData =
+      localStorage.getItem(
+        "gojuonPhotos"
+      );
+    if (oldData) {
+      try {
+        const oldPhotos =
+          JSON.parse(
+            oldData
+          );
+        for (
+          const kana in oldPhotos
+        ) {
+          if (
+            oldPhotos[kana]
+          ) {
+            await savePhotoToDB(
+              kana,
+              oldPhotos[kana]
+            );
+          }
+        }
+        localStorage.removeItem(
+          "gojuonPhotos"
+        );
+      }
+      catch (migrationError) {
+        console.error(
+          migrationError
+        );
+      }
+    }
+    photos =
+      await getAllPhotos();
+    renderTable();
+  }
+  catch (error) {
+    console.error(
+      error
+    );
+    alert(
+      "写真の保存機能を初期化できませんでした。"
+    );
+    renderTable();
+  }
+}
+initialize();
 </script>
 </body>
 </html>
